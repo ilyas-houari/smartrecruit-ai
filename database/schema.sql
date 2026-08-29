@@ -184,10 +184,12 @@ CREATE TABLE cvs (
     analyzed_at DATETIME NULL,
     validated_at DATETIME NULL,
 
+    -- VIRTUAL is intentional: MySQL restricts CASCADE actions on the base column
+    -- of a STORED generated column. The UNIQUE constraint still enforces one active CV.
     active_candidate_id BIGINT UNSIGNED
         GENERATED ALWAYS AS (
             CASE WHEN is_active = TRUE THEN candidate_id ELSE NULL END
-        ) STORED,
+        ) VIRTUAL,
 
     PRIMARY KEY (id),
 
