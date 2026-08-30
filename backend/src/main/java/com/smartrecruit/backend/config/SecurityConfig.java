@@ -1,14 +1,16 @@
 package com.smartrecruit.backend.config;
 
-import com.smartrecruit.backend.security.JwtAuthenticationEntryPoint;
-import com.smartrecruit.backend.security.JwtAuthenticationFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.smartrecruit.backend.security.JwtAuthenticationEntryPoint;
+import com.smartrecruit.backend.security.JwtAuthenticationFilter;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
@@ -39,11 +41,19 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/auth/**",
-                                "/error"
-                        ).permitAll()
+                        "/api/auth/**",
+                        "/api/job-offers/public",
+                        "/h2-console/**",
+                        "/error"
+                ).permitAll()
 
                         .anyRequest().authenticated()
+                )
+
+                .headers(headers ->
+                        headers.frameOptions(frame ->
+                                frame.sameOrigin()
+                        )
                 )
 
                 .addFilterBefore(
