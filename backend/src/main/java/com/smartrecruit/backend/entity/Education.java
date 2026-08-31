@@ -2,6 +2,9 @@ package com.smartrecruit.backend.entity;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import com.smartrecruit.backend.enums.DataSource;
 import com.smartrecruit.backend.enums.EducationLevel;
 
@@ -50,9 +53,11 @@ public class Education {
     @Column(length = 200)
     private String institution;
 
+    @JdbcTypeCode(SqlTypes.SMALLINT)
     @Column(name = "start_year")
     private Integer startYear;
 
+    @JdbcTypeCode(SqlTypes.SMALLINT)
     @Column(name = "end_year")
     private Integer endYear;
 

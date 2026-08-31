@@ -1,5 +1,12 @@
 package com.smartrecruit.backend.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.smartrecruit.backend.dto.response.CVResponse;
 import com.smartrecruit.backend.entity.CV;
 import com.smartrecruit.backend.entity.Candidate;
@@ -11,13 +18,8 @@ import com.smartrecruit.backend.exception.ForbiddenException;
 import com.smartrecruit.backend.exception.ResourceNotFoundException;
 import com.smartrecruit.backend.repository.CVRepository;
 import com.smartrecruit.backend.repository.CandidateRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +46,7 @@ public class CVService {
                     .findByCandidateIdAndIsActiveTrue(candidate.getId())
                     .ifPresent(oldCV -> {
                         oldCV.setIsActive(false);
-                        cvRepository.save(oldCV);
+                        cvRepository.saveAndFlush(oldCV);
                     });
 
             CV cv = new CV();

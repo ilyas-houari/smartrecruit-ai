@@ -8,6 +8,7 @@ import com.smartrecruit.backend.enums.RoleName;
 import com.smartrecruit.backend.exception.ForbiddenException;
 import com.smartrecruit.backend.exception.ResourceNotFoundException;
 import com.smartrecruit.backend.repository.CandidateRepository;
+import com.smartrecruit.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CandidateService {
 
     private final CandidateRepository candidateRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public CandidateProfileResponse getMyProfile(User currentUser) {
@@ -33,6 +35,11 @@ public class CandidateService {
     ) {
 
         Candidate candidate = getCandidateForUser(currentUser);
+        User user = candidate.getUser();
+
+        if (request.getPhone() != null) {
+            user.setPhone(cleanOptionalText(request.getPhone()));
+        }
 
         if (request.getCity() != null) {
             candidate.setCity(cleanOptionalText(request.getCity()));
@@ -77,6 +84,8 @@ public class CandidateService {
         }
 
         updateProfileCompleted(candidate);
+
+        userRepository.save(user);
 
         Candidate savedCandidate =
                 candidateRepository.save(candidate);
