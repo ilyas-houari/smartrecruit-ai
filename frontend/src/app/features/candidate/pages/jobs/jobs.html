@@ -1,0 +1,557 @@
+<div class="jobs-page">
+
+  <!-- =====================================
+       HEADER
+       ===================================== -->
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        Opportunity discovery
+      </p>
+
+      <h2>
+        Find your next opportunity.
+      </h2>
+
+      <p class="page-description">
+        Explore jobs and discover which opportunities best match
+        your skills, experience and education.
+      </p>
+
+    </div>
+
+
+    <div class="header-stat">
+
+      <span>
+        AVAILABLE OPPORTUNITIES
+      </span>
+
+      <strong>
+        {{ jobs.length }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       SEARCH + FILTERS
+       ===================================== -->
+
+  <section class="filter-panel">
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+      <span class="search-icon">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <circle
+            cx="11"
+            cy="11"
+            r="7"
+          ></circle>
+
+          <path d="m20 20-4-4"></path>
+        </svg>
+
+      </span>
+
+
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search by job, company or skill..."
+        aria-label="Search job offers"
+      >
+
+    </div>
+
+
+    <!-- FILTERS -->
+
+    <div class="filters">
+
+      <!-- LOCATION -->
+
+      <div class="filter-field">
+
+        <label for="location">
+          Location
+        </label>
+
+        <select
+          id="location"
+          [(ngModel)]="selectedLocation"
+        >
+
+          <option value="ALL">
+            All locations
+          </option>
+
+          <option value="Casablanca">
+            Casablanca
+          </option>
+
+          <option value="Rabat">
+            Rabat
+          </option>
+
+          <option value="Marrakech">
+            Marrakech
+          </option>
+
+          <option value="Tangier">
+            Tangier
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- WORK MODE -->
+
+      <div class="filter-field">
+
+        <label for="workMode">
+          Work mode
+        </label>
+
+        <select
+          id="workMode"
+          [(ngModel)]="selectedWorkMode"
+        >
+
+          <option value="ALL">
+            All modes
+          </option>
+
+          <option value="ONSITE">
+            On-site
+          </option>
+
+          <option value="HYBRID">
+            Hybrid
+          </option>
+
+          <option value="REMOTE">
+            Remote
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- JOB TYPE -->
+
+      <div class="filter-field">
+
+        <label for="jobType">
+          Job type
+        </label>
+
+        <select
+          id="jobType"
+          [(ngModel)]="selectedContractType"
+        >
+
+          <option value="ALL">
+            All types
+          </option>
+
+          <option value="CDI">
+            Full-time
+          </option>
+
+          <option value="PART_TIME">
+            Part-time
+          </option>
+
+          <option value="INTERNSHIP">
+            Internship
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- CLEAR -->
+
+      <button
+        class="clear-button"
+        type="button"
+        (click)="clearFilters()"
+      >
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path d="M3 6h18"></path>
+          <path d="M8 6V4h8v2"></path>
+          <path d="M19 6l-1 14H6L5 6"></path>
+        </svg>
+
+        Clear
+
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       RESULTS INFO
+       ===================================== -->
+
+  <section class="results-header">
+
+    <div>
+
+      <strong>
+        {{ filteredJobs.length }}
+        opportunities
+      </strong>
+
+      <span>
+        matching your current filters
+      </span>
+
+    </div>
+
+
+    <div class="result-hint">
+
+      <span class="match-dot"></span>
+
+      Match scores are based on your profile
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       JOB RESULTS
+       ===================================== -->
+
+  @if (filteredJobs.length > 0) {
+
+    <section class="jobs-grid">
+
+      @for (
+        job of filteredJobs;
+        track job.id
+      ) {
+
+        <article
+          class="job-card"
+          [class.featured]="job.featured"
+        >
+
+          <!-- =================================
+               CARD TOP
+               ================================= -->
+
+          <div class="job-card-top">
+
+            <div class="company-area">
+
+              <div class="company-logo">
+                {{ job.companyInitial }}
+              </div>
+
+
+              <div>
+
+                <span class="company-name">
+                  {{ job.companyName }}
+                </span>
+
+                <span class="posted-time">
+                  {{ job.postedAt }}
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- MATCH SCORE -->
+
+            <div
+              class="match-score"
+              [class.high]="job.matchingResult.finalScore >= 80"
+              [class.medium]="
+                job.matchingResult.finalScore < 80 &&
+                job.matchingResult.finalScore >= 70
+              "
+            >
+
+              <div
+                class="match-ring"
+                [style.--score]="job.matchingResult.finalScore + '%'"
+              >
+
+                <div>
+                  {{ job.matchingResult.finalScore }}
+                </div>
+
+              </div>
+
+              <span>
+                MATCH
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================
+               JOB TITLE
+               ================================= -->
+
+          <div class="job-heading">
+
+            @if (job.featured) {
+
+              <span class="featured-label">
+                Recommended for you
+              </span>
+
+            }
+
+            <h3>
+              {{ job.title }}
+            </h3>
+
+          </div>
+
+
+          <!-- =================================
+               META
+               ================================= -->
+
+          <div class="job-meta">
+
+            <!-- LOCATION -->
+
+            <span>
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+                <circle cx="12" cy="10" r="2"></circle>
+              </svg>
+
+              {{ job.location }}
+
+            </span>
+
+
+            <!-- JOB TYPE -->
+
+            <span>
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+
+                <rect
+                  x="3"
+                  y="7"
+                  width="18"
+                  height="13"
+                  rx="2"
+                ></rect>
+
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+
+              </svg>
+
+              {{ contractTypeLabel(job.contractType) }}
+
+            </span>
+
+
+            <!-- SALARY -->
+
+            <span>
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path d="M12 2v20"></path>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+              </svg>
+
+              {{ job.salary }}
+
+            </span>
+
+          </div>
+
+
+          <!-- =================================
+               DESCRIPTION
+               ================================= -->
+
+          <p class="job-description">
+            {{ job.description }}
+          </p>
+
+
+          <!-- =================================
+               SKILLS
+               ================================= -->
+
+          <div class="skills">
+
+            @for (
+              skill of job.skills;
+              track skill
+            ) {
+
+              <span>
+                {{ skill }}
+              </span>
+
+            }
+
+          </div>
+
+
+          <!-- =================================
+               FOOTER
+               ================================= -->
+
+          <div class="job-footer">
+
+            <div class="job-extra">
+
+              <span>
+                {{ workModeLabel(job.workMode) }}
+              </span>
+
+              <i></i>
+
+              <span>
+                {{ job.experience }}
+              </span>
+
+            </div>
+
+
+            <!-- IMPORTANT:
+                 RouterLink is used here -->
+
+            <a
+              [routerLink]="[
+                '/candidate/jobs',
+                job.id
+              ]"
+              class="details-button"
+            >
+
+              View details
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14"></path>
+                <path d="m14 7 5 5-5 5"></path>
+              </svg>
+
+            </a>
+
+          </div>
+
+        </article>
+
+      }
+
+    </section>
+
+  } @else {
+
+    <!-- =====================================
+         EMPTY STATE
+         ===================================== -->
+
+    <section class="empty-state">
+
+      <div class="empty-icon">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+
+          <circle
+            cx="11"
+            cy="11"
+            r="7"
+          ></circle>
+
+          <path d="m20 20-4-4"></path>
+
+        </svg>
+
+      </div>
+
+
+      <h3>
+        No opportunities found
+      </h3>
+
+
+      <p>
+        Try changing your search or removing some filters.
+      </p>
+
+
+      <button
+        type="button"
+        (click)="clearFilters()"
+      >
+        Clear all filters
+      </button>
+
+    </section>
+
+  }
+
+</div>

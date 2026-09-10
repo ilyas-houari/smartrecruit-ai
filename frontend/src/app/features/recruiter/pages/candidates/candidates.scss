@@ -1,0 +1,812 @@
+:host {
+  display: block;
+
+  --navy: #10233f;
+  --navy-soft: #173653;
+
+  --text: #10233f;
+  --muted: #71809a;
+  --light-muted: #8795ad;
+
+  --border: #e5eaf2;
+  --background: #f6f8fc;
+
+  --mint: #18b890;
+  --mint-dark: #138267;
+  --mint-soft: #e8faf5;
+
+  --blue: #315fc7;
+  --blue-soft: #eef4ff;
+
+  --warning: #b7791f;
+  --warning-soft: #fff8e8;
+
+  --danger: #d65f43;
+  --danger-soft: #fff1ed;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+.candidates-page {
+  width: 100%;
+  max-width: 1450px;
+
+  margin: 0 auto;
+  padding: 10px 0 40px;
+}
+
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.header {
+  margin-bottom: 28px;
+}
+
+
+.eyebrow {
+  margin: 0;
+
+  color: var(--light-muted);
+
+  font-size: 12px;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+}
+
+
+.header h2 {
+  margin: 8px 0;
+
+  color: var(--text);
+
+  font-size: 34px;
+  font-weight: 800;
+
+  letter-spacing: -0.7px;
+}
+
+
+.header > div > p:last-child {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   SEARCH
+   ========================================= */
+
+.search-box {
+  margin-bottom: 24px;
+  padding: 18px 20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background: white;
+
+  box-shadow:
+    0 6px 20px
+    rgba(16, 35, 63, 0.03);
+}
+
+
+.search-box input {
+  min-width: 0;
+  width: 100%;
+
+  padding: 14px 16px;
+
+  border: 1px solid #dce3ee;
+  border-radius: 12px;
+
+  background: white;
+
+  color: var(--text);
+
+  font: inherit;
+  font-size: 13px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.search-box input::placeholder {
+  color: #a0aabc;
+}
+
+
+.search-box input:focus {
+  border-color: var(--mint);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(24, 184, 144, 0.1);
+}
+
+
+/* =========================================
+   RESULT COUNT
+   ========================================= */
+
+.result-count {
+  min-width: 95px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  gap: 2px;
+}
+
+
+.result-count strong {
+  color: var(--text);
+
+  font-size: 18px;
+}
+
+
+.result-count span {
+  color: #909bad;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.4px;
+}
+
+
+/* =========================================
+   CANDIDATE LIST
+   ========================================= */
+
+.candidate-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+
+/* =========================================
+   CANDIDATE CARD
+   ========================================= */
+
+.candidate-card {
+  padding: 22px 24px;
+
+  display: grid;
+
+  grid-template-columns:
+    64px
+    minmax(0, 1fr)
+    115px
+    105px
+    145px;
+
+  align-items: center;
+
+  gap: 20px;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background: white;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.candidate-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #d8e1e9;
+
+  box-shadow:
+    0 12px 30px
+    rgba(16, 35, 63, 0.07);
+}
+
+
+/* =========================================
+   AVATAR
+   ========================================= */
+
+.avatar {
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #10233f,
+      #173653
+    );
+
+  color: white;
+
+  font-size: 21px;
+  font-weight: 800;
+
+  letter-spacing: 0.7px;
+}
+
+
+/* =========================================
+   INFO
+   ========================================= */
+
+.info {
+  min-width: 0;
+}
+
+
+.candidate-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+
+.candidate-heading > div {
+  min-width: 0;
+}
+
+
+.info h3 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 18px;
+  font-weight: 800;
+}
+
+
+.info h4 {
+  margin: 5px 0 0;
+
+  color: var(--mint-dark);
+
+  font-size: 13px;
+  font-weight: 750;
+}
+
+
+/* =========================================
+   CANDIDATE META
+   ========================================= */
+
+.candidate-meta {
+  margin-top: 10px;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 7px 14px;
+}
+
+
+.candidate-meta span {
+  position: relative;
+
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+
+.candidate-meta span:not(:last-child)::after {
+  content: '';
+
+  width: 3px;
+  height: 3px;
+
+  position: absolute;
+
+  top: 50%;
+  right: -8px;
+
+  transform: translateY(-50%);
+
+  border-radius: 50%;
+
+  background: #c4ccd6;
+}
+
+
+/* =========================================
+   SKILLS
+   ========================================= */
+
+.skills {
+  margin-top: 12px;
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 7px;
+}
+
+
+.skills span {
+  padding: 5px 9px;
+
+  border: 1px solid #cfefe6;
+  border-radius: 999px;
+
+  background: var(--mint-soft);
+
+  color: var(--mint-dark);
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   CV STATUS
+   ========================================= */
+
+.cv-status {
+  flex-shrink: 0;
+
+  padding: 5px 8px;
+
+  border-radius: 7px;
+
+  background: #f2f4f7;
+
+  color: #667085;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  letter-spacing: 0.25px;
+
+  text-transform: uppercase;
+}
+
+
+.cv-status.validated,
+.cv-status.analyzed {
+  background: var(--mint-soft);
+
+  color: var(--mint-dark);
+}
+
+
+.cv-status.processing {
+  background: var(--warning-soft);
+
+  color: var(--warning);
+}
+
+
+.cv-status.failed {
+  background: var(--danger-soft);
+
+  color: var(--danger);
+}
+
+
+/* =========================================
+   MATCH
+   ========================================= */
+
+.match {
+  min-width: 0;
+
+  text-align: center;
+}
+
+
+.match strong {
+  display: block;
+
+  color: var(--mint-dark);
+
+  font-size: 27px;
+  font-weight: 850;
+
+  letter-spacing: -0.5px;
+}
+
+
+.match small {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--muted);
+
+  font-size: 9px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.4px;
+}
+
+
+/* =========================================
+   MISSING SKILLS COUNT
+   ========================================= */
+
+.missing-count {
+  width: fit-content;
+
+  margin: 9px auto 0;
+  padding: 5px 7px;
+
+  border-radius: 7px;
+
+  background: var(--warning-soft);
+
+  color: var(--warning);
+
+  font-size: 8px;
+  font-weight: 700;
+}
+
+
+.missing-count span {
+  font-weight: 850;
+}
+
+
+/* =========================================
+   APPLICATION INFO
+   ========================================= */
+
+.application-info {
+  min-height: 48px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  border-left: 1px solid #edf1f5;
+  border-right: 1px solid #edf1f5;
+}
+
+
+.application-info span {
+  color: #95a1b2;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+}
+
+
+.application-info strong {
+  color: var(--text);
+
+  font-size: 13px;
+}
+
+
+/* =========================================
+   PROFILE BUTTON
+   ========================================= */
+
+.profile-button {
+  min-height: 42px;
+
+  padding: 0 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  border-radius: 11px;
+
+  background: var(--navy);
+
+  color: white;
+
+  font-size: 11px;
+  font-weight: 750;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.profile-button span {
+  font-size: 15px;
+}
+
+
+.profile-button:hover {
+  transform: translateY(-1px);
+
+  background: var(--mint);
+
+  box-shadow:
+    0 8px 18px
+    rgba(24, 184, 144, 0.18);
+}
+
+
+/* =========================================
+   EMPTY STATE
+   ========================================= */
+
+.empty-state {
+  padding: 50px 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: 1px dashed #d6dee8;
+  border-radius: 20px;
+
+  background: white;
+
+  text-align: center;
+}
+
+
+.empty-icon {
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  background: #f1f4f8;
+
+  color: #8290a3;
+
+  font-size: 20px;
+  font-weight: 800;
+}
+
+
+.empty-state h3 {
+  margin: 13px 0 0;
+
+  color: var(--text);
+
+  font-size: 15px;
+}
+
+
+.empty-state p {
+  margin: 6px 0 0;
+
+  color: var(--muted);
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 1200px) {
+
+  .candidate-card {
+    grid-template-columns:
+      64px
+      minmax(0, 1fr)
+      105px
+      135px;
+  }
+
+
+  .application-info {
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 950px) {
+
+  .candidate-card {
+    grid-template-columns:
+      64px
+      minmax(0, 1fr)
+      105px;
+
+    align-items: start;
+  }
+
+
+  .profile-button {
+    grid-column: 2 / -1;
+
+    width: fit-content;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .search-box {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+
+  .result-count {
+    min-width: 0;
+
+    align-items: flex-start;
+
+    flex-direction: row;
+  }
+
+
+  .candidate-card {
+    grid-template-columns:
+      55px
+      minmax(0, 1fr);
+
+    gap: 15px;
+  }
+
+
+  .avatar {
+    width: 55px;
+    height: 55px;
+
+    border-radius: 15px;
+
+    font-size: 18px;
+  }
+
+
+  .match {
+    grid-column: 1 / -1;
+
+    padding-top: 14px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    border-top: 1px solid #edf1f5;
+
+    text-align: left;
+  }
+
+
+  .match strong {
+    font-size: 21px;
+  }
+
+
+  .match small {
+    margin: 0;
+  }
+
+
+  .missing-count {
+    margin: 0 0 0 auto;
+  }
+
+
+  .profile-button {
+    grid-column: 1 / -1;
+
+    width: 100%;
+  }
+
+
+  .candidate-heading {
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+
+  .cv-status {
+    align-self: flex-start;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .header h2 {
+    font-size: 28px;
+  }
+
+
+  .candidate-card {
+    padding: 18px;
+
+    grid-template-columns: 1fr;
+  }
+
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+
+  .info,
+  .match,
+  .profile-button {
+    grid-column: 1;
+  }
+
+
+  .candidate-meta {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 5px;
+  }
+
+
+  .candidate-meta span::after {
+    display: none;
+  }
+
+
+  .match {
+    width: 100%;
+  }
+
+}

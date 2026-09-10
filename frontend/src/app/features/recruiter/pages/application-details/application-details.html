@@ -1,0 +1,793 @@
+<div class="application-page">
+
+  <!-- =====================================
+       NOT FOUND
+       ===================================== -->
+
+  @if (applicationNotFound) {
+
+    <section class="not-found-card">
+
+      <h2>
+        Application not found
+      </h2>
+
+      <p>
+        The requested application could not be found.
+      </p>
+
+      <a
+        routerLink="/recruiter/applications"
+        class="back-link"
+      >
+        ← Back to applications
+      </a>
+
+    </section>
+
+  } @else {
+
+    <!-- =====================================
+         BACK
+         ===================================== -->
+
+    <section class="back">
+
+      <a
+        routerLink="/recruiter/applications"
+      >
+        ← Back to applications
+      </a>
+
+    </section>
+
+
+    @if (statusUpdateError) {
+
+      <div class="status-update-error">
+        {{ statusUpdateError }}
+      </div>
+
+    }
+
+
+    <!-- =====================================
+         HEADER
+         ===================================== -->
+
+    <section class="header">
+
+      <div class="candidate-header">
+
+        <div class="avatar">
+
+          {{
+            application
+              .candidateFirstName
+              .charAt(0)
+          }}
+
+          {{
+            application
+              .candidateLastName
+              .charAt(0)
+          }}
+
+        </div>
+
+
+        <div>
+
+          <p class="eyebrow">
+            APPLICATION #{{ application.id }}
+          </p>
+
+          <h1>
+            {{ application.candidateFirstName }}
+            {{ application.candidateLastName }}
+          </h1>
+
+          <p class="job-title">
+            {{ application.jobTitle }}
+          </p>
+
+
+          <a
+            class="candidate-profile-link"
+            [routerLink]="[
+              '/recruiter/candidates',
+              application.candidateId
+            ]"
+          >
+            View Candidate Profile →
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="score">
+
+        <strong>
+          {{
+            application
+              .matchingResult
+              .finalScore
+          }}%
+        </strong>
+
+        <span>
+          AI Match
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================
+         CONTENT
+         ===================================== -->
+
+    <section class="content">
+
+      <div class="main">
+
+
+        <!-- =================================
+             CANDIDATE SUMMARY
+             ================================= -->
+
+        <div class="card">
+
+          <p class="section-label">
+            PROFILE
+          </p>
+
+          <h2>
+            Candidate Summary
+          </h2>
+
+          <p class="summary">
+            {{ application.summary }}
+          </p>
+
+        </div>
+
+
+        <!-- =================================
+             APPLICATION INFORMATION
+             ================================= -->
+
+        <div class="card">
+
+          <div class="card-heading">
+
+            <div>
+
+              <p class="section-label">
+                APPLICATION
+              </p>
+
+              <h2>
+                Application Information
+              </h2>
+
+            </div>
+
+
+            <span
+              class="status-badge"
+              [class.submitted]="
+                application.status === 'SUBMITTED'
+              "
+              [class.under-review]="
+                application.status === 'UNDER_REVIEW'
+              "
+              [class.shortlisted]="
+                application.status === 'SHORTLISTED'
+              "
+              [class.accepted]="
+                application.status === 'ACCEPTED'
+              "
+              [class.rejected]="
+                application.status === 'REJECTED'
+              "
+              [class.withdrawn]="
+                application.status === 'WITHDRAWN'
+              "
+            >
+              {{ statusLabel }}
+            </span>
+
+          </div>
+
+
+          <div class="info-grid">
+
+            <div>
+
+              <label>
+                Candidate
+              </label>
+
+              <p>
+                {{ application.candidateFirstName }}
+                {{ application.candidateLastName }}
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Experience
+              </label>
+
+              <p>
+                {{ application.totalExperienceMonths }}
+                months
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Applied For
+              </label>
+
+              <p>
+                {{ application.jobTitle }}
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Job ID
+              </label>
+
+              <p>
+                #{{ application.jobOfferId }}
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Application ID
+              </label>
+
+              <p>
+                #{{ application.id }}
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                CV Status
+              </label>
+
+              <p
+                class="cv-status"
+                [class.validated]="
+                  application.cvStatus === 'VALIDATED'
+                "
+                [class.analyzed]="
+                  application.cvStatus === 'ANALYZED'
+                "
+                [class.processing]="
+                  application.cvStatus === 'PROCESSING'
+                "
+                [class.failed]="
+                  application.cvStatus === 'FAILED'
+                "
+              >
+                {{ cvStatusLabel }}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             MATCHING BREAKDOWN
+             ================================= -->
+
+        <div class="card">
+
+          <div class="card-heading">
+
+            <div>
+
+              <p class="section-label">
+                SMARTRECRUIT AI
+              </p>
+
+              <h2>
+                Matching Breakdown
+              </h2>
+
+            </div>
+
+
+            <strong class="overall-score">
+              {{
+                application
+                  .matchingResult
+                  .finalScore
+              }}%
+            </strong>
+
+          </div>
+
+
+          <div class="matching-grid">
+
+
+            <!-- SKILLS -->
+
+            <div class="matching-factor">
+
+              <div class="factor-heading">
+
+                <span>
+                  Skills
+                </span>
+
+                <strong>
+                  {{
+                    application
+                      .matchingResult
+                      .skillScore
+                  }}%
+                </strong>
+
+              </div>
+
+
+              <div class="factor-bar">
+
+                <span
+                  [style.width.%]="
+                    application
+                      .matchingResult
+                      .skillScore
+                  "
+                ></span>
+
+              </div>
+
+
+              <small>
+                Weight: 50%
+              </small>
+
+            </div>
+
+
+            <!-- EXPERIENCE -->
+
+            <div class="matching-factor">
+
+              <div class="factor-heading">
+
+                <span>
+                  Experience
+                </span>
+
+                <strong>
+                  {{
+                    application
+                      .matchingResult
+                      .experienceScore
+                  }}%
+                </strong>
+
+              </div>
+
+
+              <div class="factor-bar">
+
+                <span
+                  [style.width.%]="
+                    application
+                      .matchingResult
+                      .experienceScore
+                  "
+                ></span>
+
+              </div>
+
+
+              <small>
+                Weight: 30%
+              </small>
+
+            </div>
+
+
+            <!-- EDUCATION -->
+
+            <div class="matching-factor">
+
+              <div class="factor-heading">
+
+                <span>
+                  Education
+                </span>
+
+                <strong>
+                  {{
+                    application
+                      .matchingResult
+                      .educationScore
+                  }}%
+                </strong>
+
+              </div>
+
+
+              <div class="factor-bar">
+
+                <span
+                  [style.width.%]="
+                    application
+                      .matchingResult
+                      .educationScore
+                  "
+                ></span>
+
+              </div>
+
+
+              <small>
+                Weight: 20%
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div class="matching-explanation">
+
+            <strong>
+              AI Explanation
+            </strong>
+
+            <p>
+              {{
+                application
+                  .matchingResult
+                  .explanation
+              }}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             MATCHED SKILLS
+             ================================= -->
+
+        <div class="card">
+
+          <div class="card-heading">
+
+            <h2>
+              Matched Skills
+            </h2>
+
+            <span class="count-label">
+              {{ application.matchedSkills.length }}
+              skills
+            </span>
+
+          </div>
+
+
+          <div class="skills">
+
+            @for (
+              skill of application.matchedSkills;
+              track skill
+            ) {
+
+              <span>
+                {{ skill }}
+              </span>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             MISSING SKILLS
+             ================================= -->
+
+        <div class="card">
+
+          <div class="card-heading">
+
+            <h2>
+              Missing Skills
+            </h2>
+
+            <span class="missing-count">
+              {{
+                application
+                  .matchingResult
+                  .missingSkills
+                  .length
+              }}
+              gaps
+            </span>
+
+          </div>
+
+
+          @if (
+            application
+              .matchingResult
+              .missingSkills
+              .length > 0
+          ) {
+
+            <div class="missing-skills">
+
+              @for (
+                skill of application
+                  .matchingResult
+                  .missingSkills;
+                track skill.skillId
+              ) {
+
+                <div class="missing-skill">
+
+                  <div class="missing-icon">
+                    !
+                  </div>
+
+
+                  <div>
+
+                    <strong>
+                      {{ skill.name }}
+                    </strong>
+
+                    <span>
+                      Required skill not detected
+                    </span>
+
+                  </div>
+
+                </div>
+
+              }
+
+            </div>
+
+          } @else {
+
+            <div class="empty-state">
+              No important skill gaps detected.
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================
+           SIDE COLUMN
+           ===================================== -->
+
+      <aside class="side-column">
+
+
+        <!-- =================================
+             RECRUITER ACTIONS
+             ================================= -->
+
+        <section class="actions-card">
+
+          <p class="side-label">
+            APPLICATION STATUS
+          </p>
+
+          <h2>
+            Recruiter Actions
+          </h2>
+
+
+          <div class="current-status">
+
+            <span>
+              Current Status
+            </span>
+
+            <strong>
+              {{ statusLabel }}
+            </strong>
+
+          </div>
+
+
+          @if (!isFinalStatus) {
+
+            <div class="action-buttons">
+
+
+              @if (
+                application.status !==
+                  'UNDER_REVIEW'
+              ) {
+
+                <button
+                  type="button"
+                  class="review"
+                  (click)="markUnderReview()"
+                >
+                  Mark Under Review
+                </button>
+
+              }
+
+
+              @if (
+                application.status !==
+                  'SHORTLISTED'
+              ) {
+
+                <button
+                  type="button"
+                  class="shortlist"
+                  (click)="shortlist()"
+                >
+                  Shortlist Candidate
+                </button>
+
+              }
+
+
+              <button
+                type="button"
+                class="accept"
+                (click)="accept()"
+              >
+                Accept Candidate
+              </button>
+
+
+              <button
+                type="button"
+                class="reject"
+                (click)="reject()"
+              >
+                Reject Candidate
+              </button>
+
+            </div>
+
+          } @else {
+
+            <div class="final-status-message">
+
+              <strong>
+                Final status
+              </strong>
+
+              <p>
+                This application currently has
+                a final status of
+                {{ statusLabel }}.
+              </p>
+
+            </div>
+
+          }
+
+        </section>
+
+
+        <!-- =================================
+             MATCH FORMULA
+             ================================= -->
+
+        <section class="formula-card">
+
+          <p class="side-label">
+            MATCHING FORMULA
+          </p>
+
+          <h2>
+            Score Calculation
+          </h2>
+
+
+          <div class="formula-row">
+
+            <span>
+              Skills
+            </span>
+
+            <strong>
+              50%
+            </strong>
+
+          </div>
+
+
+          <div class="formula-row">
+
+            <span>
+              Experience
+            </span>
+
+            <strong>
+              30%
+            </strong>
+
+          </div>
+
+
+          <div class="formula-row">
+
+            <span>
+              Education
+            </span>
+
+            <strong>
+              20%
+            </strong>
+
+          </div>
+
+
+          <div class="formula-total">
+
+            <span>
+              Final Match
+            </span>
+
+            <strong>
+              {{
+                application
+                  .matchingResult
+                  .finalScore
+              }}%
+            </strong>
+
+          </div>
+
+        </section>
+
+      </aside>
+
+    </section>
+
+  }
+
+</div>

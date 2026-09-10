@@ -1,0 +1,831 @@
+<div class="create-job-page">
+
+  <!-- =====================================
+       HEADER
+       ===================================== -->
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        RECRUITER WORKSPACE
+      </p>
+
+      <h1>
+        Create Job
+      </h1>
+
+      <p class="subtitle">
+        Create a new opportunity and define the candidate requirements.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <form
+    class="job-form"
+    (ngSubmit)="publishJob()"
+  >
+
+    <!-- =====================================
+         BASIC INFORMATION
+         ===================================== -->
+
+    <section class="form-card">
+
+      <h2>
+        Basic Information
+      </h2>
+
+
+      <div class="form-grid">
+
+
+        <!-- JOB TITLE -->
+
+        <div class="field full-width">
+
+          <label for="title">
+            Job Title
+          </label>
+
+          <input
+            id="title"
+            name="title"
+            type="text"
+            [(ngModel)]="job.title"
+            placeholder="Example: Java Backend Developer"
+            required
+          />
+
+        </div>
+
+
+        <!-- LOCATION -->
+
+        <div class="field">
+
+          <label for="location">
+            Location
+          </label>
+
+          <input
+            id="location"
+            name="location"
+            type="text"
+            [(ngModel)]="job.location"
+            placeholder="Casablanca, Morocco"
+            required
+          />
+
+        </div>
+
+
+        <!-- WORK MODE -->
+
+        <div class="field">
+
+          <label for="workMode">
+            Work Mode
+          </label>
+
+          <select
+            id="workMode"
+            name="workMode"
+            [(ngModel)]="job.workMode"
+          >
+
+            <option value="ONSITE">
+              On-site
+            </option>
+
+            <option value="REMOTE">
+              Remote
+            </option>
+
+            <option value="HYBRID">
+              Hybrid
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- CONTRACT TYPE -->
+
+        <div class="field">
+
+          <label for="contractType">
+            Contract Type
+          </label>
+
+          <select
+            id="contractType"
+            name="contractType"
+            [(ngModel)]="job.contractType"
+          >
+
+            <option value="CDI">
+              CDI
+            </option>
+
+            <option value="CDD">
+              CDD
+            </option>
+
+            <option value="INTERNSHIP">
+              Internship
+            </option>
+
+            <option value="FREELANCE">
+              Freelance
+            </option>
+
+            <option value="PART_TIME">
+              Part-time
+            </option>
+
+            <option value="OTHER">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- INITIAL STATUS -->
+
+        <div class="field">
+
+          <label>
+            Initial Status
+          </label>
+
+          <div class="status-preview">
+
+            <span>
+              {{ job.status }}
+            </span>
+
+          </div>
+
+          <small>
+            Use Save Draft or Publish Job below.
+          </small>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================
+         CANDIDATE REQUIREMENTS
+         ===================================== -->
+
+    <section class="form-card">
+
+      <h2>
+        Candidate Requirements
+      </h2>
+
+
+      <div class="form-grid">
+
+
+        <!-- EXPERIENCE -->
+
+        <div class="field">
+
+          <label for="experience">
+            Required Experience
+          </label>
+
+          <input
+            id="experience"
+            name="experience"
+            type="number"
+            min="0"
+            [(ngModel)]="job.requiredExperienceYears"
+          />
+
+          <small>
+            Required professional experience in years.
+          </small>
+
+        </div>
+
+
+        <!-- EDUCATION -->
+
+        <div class="field">
+
+          <label for="education">
+            Required Education
+          </label>
+
+          <select
+            id="education"
+            name="education"
+            [(ngModel)]="job.requiredEducationLevel"
+          >
+
+            <option value="NONE">
+              None
+            </option>
+
+            <option value="BAC">
+              BAC
+            </option>
+
+            <option value="BAC_2">
+              BAC +2
+            </option>
+
+            <option value="BAC_3">
+              BAC +3
+            </option>
+
+            <option value="MASTER">
+              Master
+            </option>
+
+            <option value="ENGINEERING">
+              Engineering
+            </option>
+
+            <option value="PHD">
+              PhD
+            </option>
+
+            <option value="OTHER">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================
+         REQUIRED SKILLS
+         ===================================== -->
+
+    <section class="form-card skills-card">
+
+      <div class="skills-card-header">
+
+        <div>
+
+          <h2>
+            Required Skills
+          </h2>
+
+          <p>
+            Define the skills needed for this job,
+            including level, importance and optional weight.
+          </p>
+
+        </div>
+
+
+        <span class="skills-count">
+          {{ jobSkills.length }}
+          required
+        </span>
+
+      </div>
+
+
+      <!-- =================================
+           ADD SKILL
+           ================================= -->
+
+      <div class="skill-builder">
+
+        <div class="skill-builder-grid">
+
+
+          <!-- SKILL -->
+
+          <div class="field">
+
+            <label for="skillSelect">
+              Skill
+            </label>
+
+            <select
+              id="skillSelect"
+              name="skillSelect"
+              [(ngModel)]="selectedSkillId"
+            >
+
+              <option [ngValue]="null">
+                Select a skill
+              </option>
+
+              @for (
+                skill of availableSkills;
+                track skill.id
+              ) {
+
+                <option [ngValue]="skill.id">
+                  {{ skill.name }}
+                  — {{ skill.category }}
+                </option>
+
+              }
+
+            </select>
+
+          </div>
+
+
+          <!-- REQUIRED LEVEL -->
+
+          <div class="field">
+
+            <label for="requiredLevel">
+              Required Level
+            </label>
+
+            <select
+              id="requiredLevel"
+              name="requiredLevel"
+              [(ngModel)]="selectedRequiredLevel"
+            >
+
+              <option value="BEGINNER">
+                Beginner
+              </option>
+
+              <option value="INTERMEDIATE">
+                Intermediate
+              </option>
+
+              <option value="ADVANCED">
+                Advanced
+              </option>
+
+              <option value="EXPERT">
+                Expert
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- WEIGHT -->
+
+          <div class="field">
+
+            <label for="skillWeight">
+              Weight
+            </label>
+
+            <input
+              id="skillWeight"
+              name="skillWeight"
+              type="number"
+              min="0"
+              max="100"
+              [(ngModel)]="selectedWeight"
+              placeholder="Optional"
+            />
+
+            <small>
+              Optional value from 0 to 100.
+            </small>
+
+          </div>
+
+
+          <!-- MANDATORY -->
+
+          <div class="field mandatory-field">
+
+            <label>
+              Requirement Type
+            </label>
+
+            <label class="checkbox-option">
+
+              <input
+                name="selectedMandatory"
+                type="checkbox"
+                [(ngModel)]="selectedMandatory"
+              />
+
+              <span>
+                Mandatory skill
+              </span>
+
+            </label>
+
+            <small>
+              Turn off if this skill is preferred but optional.
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="add-skill-button"
+          (click)="addSkillRequirement()"
+        >
+          + Add Required Skill
+        </button>
+
+      </div>
+
+
+      <!-- =================================
+           CURRENT JOB SKILLS
+           ================================= -->
+
+      @if (jobSkills.length > 0) {
+
+        <div class="skill-requirements">
+
+          <div class="skill-requirements-header">
+
+            <span>
+              Skill
+            </span>
+
+            <span>
+              Required Level
+            </span>
+
+            <span>
+              Mandatory
+            </span>
+
+            <span>
+              Weight
+            </span>
+
+            <span>
+              Action
+            </span>
+
+          </div>
+
+
+          @for (
+            requirement of jobSkills;
+            track requirement.skillId
+          ) {
+
+            <div class="skill-requirement-row">
+
+
+              <!-- SKILL NAME -->
+
+              <div class="requirement-skill">
+
+                <strong>
+                  {{ requirement.name }}
+                </strong>
+
+                <small>
+                  Skill ID:
+                  {{ requirement.skillId }}
+                </small>
+
+              </div>
+
+
+              <!-- LEVEL -->
+
+              <div class="requirement-control">
+
+                <select
+                  [name]="
+                    'skillLevel-' +
+                    requirement.skillId
+                  "
+                  [(ngModel)]="
+                    requirement.requiredLevel
+                  "
+                >
+
+                  <option value="BEGINNER">
+                    Beginner
+                  </option>
+
+                  <option value="INTERMEDIATE">
+                    Intermediate
+                  </option>
+
+                  <option value="ADVANCED">
+                    Advanced
+                  </option>
+
+                  <option value="EXPERT">
+                    Expert
+                  </option>
+
+                </select>
+
+              </div>
+
+
+              <!-- MANDATORY -->
+
+              <div class="requirement-control">
+
+                <label class="requirement-checkbox">
+
+                  <input
+                    type="checkbox"
+                    [name]="
+                      'mandatory-' +
+                      requirement.skillId
+                    "
+                    [(ngModel)]="
+                      requirement.mandatory
+                    "
+                  />
+
+                  <span>
+
+                    @if (
+                      requirement.mandatory
+                    ) {
+                      Mandatory
+                    } @else {
+                      Optional
+                    }
+
+                  </span>
+
+                </label>
+
+              </div>
+
+
+              <!-- WEIGHT -->
+
+              <div class="requirement-control">
+
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  [name]="
+                    'weight-' +
+                    requirement.skillId
+                  "
+                  [(ngModel)]="
+                    requirement.weight
+                  "
+                  placeholder="—"
+                />
+
+              </div>
+
+
+              <!-- REMOVE -->
+
+              <div class="requirement-action">
+
+                <button
+                  type="button"
+                  class="remove-skill-button"
+                  (click)="
+                    removeSkillRequirement(
+                      requirement.skillId
+                    )
+                  "
+                >
+                  Remove
+                </button>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <div class="empty-skills">
+
+          <div class="empty-skills-icon">
+            +
+          </div>
+
+          <strong>
+            No required skills added
+          </strong>
+
+          <p>
+            Add at least one required skill before
+            publishing this job.
+          </p>
+
+        </div>
+
+      }
+
+    </section>
+
+
+    <!-- =====================================
+         SALARY & DEADLINE
+         ===================================== -->
+
+    <section class="form-card">
+
+      <h2>
+        Salary & Deadline
+      </h2>
+
+
+      <div class="form-grid">
+
+
+        <!-- MIN SALARY -->
+
+        <div class="field">
+
+          <label for="salaryMin">
+            Minimum Salary
+          </label>
+
+          <input
+            id="salaryMin"
+            name="salaryMin"
+            type="number"
+            min="0"
+            [(ngModel)]="job.salaryMin"
+            placeholder="9000"
+          />
+
+        </div>
+
+
+        <!-- MAX SALARY -->
+
+        <div class="field">
+
+          <label for="salaryMax">
+            Maximum Salary
+          </label>
+
+          <input
+            id="salaryMax"
+            name="salaryMax"
+            type="number"
+            min="0"
+            [(ngModel)]="job.salaryMax"
+            placeholder="14000"
+          />
+
+        </div>
+
+
+        <!-- DEADLINE -->
+
+        <div class="field full-width">
+
+          <label for="deadline">
+            Application Deadline
+          </label>
+
+          <input
+            id="deadline"
+            name="deadline"
+            type="date"
+            [(ngModel)]="job.deadline"
+          />
+
+          <small>
+            Optional closing date for applications.
+          </small>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================
+         DESCRIPTION
+         ===================================== -->
+
+    <section class="form-card">
+
+      <h2>
+        Job Description
+      </h2>
+
+
+      <div class="field">
+
+        <label for="description">
+          Description
+        </label>
+
+        <textarea
+          id="description"
+          name="description"
+          rows="8"
+          [(ngModel)]="job.description"
+          placeholder="Describe the role, responsibilities and expectations..."
+          required
+        ></textarea>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================
+         MESSAGES
+         ===================================== -->
+
+    @if (errorMessage) {
+
+      <div class="error-message">
+
+        <span>
+          !
+        </span>
+
+        {{ errorMessage }}
+
+      </div>
+
+    }
+
+
+    @if (successMessage) {
+
+      <div class="success-message">
+
+        <span>
+          ✓
+        </span>
+
+        {{ successMessage }}
+
+      </div>
+
+    }
+
+
+    <!-- =====================================
+         ACTIONS
+         ===================================== -->
+
+    <div class="form-actions">
+
+      <button
+        type="button"
+        class="cancel-button"
+        (click)="cancel()"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        type="button"
+        class="draft-button"
+        (click)="saveDraft()"
+      >
+        Save Draft
+      </button>
+
+
+      <button
+        type="submit"
+        class="publish-button"
+      >
+        Publish Job
+      </button>
+
+    </div>
+
+  </form>
+
+</div>

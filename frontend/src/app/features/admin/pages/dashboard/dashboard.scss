@@ -1,0 +1,275 @@
+.admin-dashboard {
+  padding: 10px 0 40px;
+}
+
+.page-header {
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  color: #8190a8;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #10233f;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: #74839a;
+}
+
+
+/* ================================
+   STAT CARDS
+================================ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e5eaf2;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(16, 35, 63, 0.04);
+}
+
+.stat-title {
+  margin: 0 0 12px;
+  color: #7c8aa0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.stat-content strong {
+  display: block;
+  color: #10233f;
+  font-size: 32px;
+}
+
+.stat-content span {
+  display: block;
+  margin-top: 7px;
+  color: #8a97a9;
+  font-size: 12px;
+}
+
+
+/* ================================
+   MAIN GRID
+================================ */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.7fr);
+  gap: 22px;
+}
+
+.overview-card,
+.recent-card {
+  background: #ffffff;
+  border: 1px solid #e5eaf2;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(16, 35, 63, 0.04);
+}
+
+.overview-card {
+  padding: 28px;
+}
+
+.recent-card {
+  padding: 28px;
+  height: max-content;
+}
+
+
+/* ================================
+   SECTION HEADINGS
+================================ */
+
+.section-heading {
+  margin-bottom: 22px;
+}
+
+.section-label {
+  margin: 0 0 7px;
+  color: #8190a8;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: #10233f;
+  font-size: 20px;
+}
+
+
+/* ================================
+   OVERVIEW
+================================ */
+
+.overview-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.overview-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.overview-row:last-child {
+  border-bottom: none;
+}
+
+.overview-name {
+  color: #10233f;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.overview-row p {
+  margin: 5px 0 0;
+  color: #8592a5;
+  font-size: 12px;
+}
+
+.overview-row strong {
+  min-width: 54px;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: #f2f6fa;
+  color: #10233f;
+  text-align: center;
+  font-size: 18px;
+}
+
+
+/* ================================
+   RECENT ACTIVITY
+================================ */
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recent-item {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.recent-item:last-child {
+  border-bottom: none;
+}
+
+.recent-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 13px;
+  background: #10233f;
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.recent-copy {
+  min-width: 0;
+}
+
+.recent-copy strong {
+  display: block;
+  color: #10233f;
+  font-size: 13px;
+}
+
+.recent-copy span {
+  display: block;
+  margin-top: 4px;
+  color: #8a97aa;
+  font-size: 11px;
+}
+
+.recent-status {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #eef1f5;
+  color: #66778e;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.recent-status.active {
+  background: #e8faf5;
+  color: #159874;
+}
+
+.recent-status.published {
+  background: #eef4ff;
+  color: #315fc7;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview-row {
+    align-items: flex-start;
+  }
+
+  .overview-card,
+  .recent-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recent-item {
+    grid-template-columns: 40px 1fr;
+  }
+
+  .recent-status {
+    grid-column: 2;
+    width: max-content;
+  }
+}

@@ -1,0 +1,240 @@
+<div class="company-page">
+
+
+<section class="page-header">
+
+
+<div>
+
+<p class="eyebrow">
+RECRUITER WORKSPACE
+</p>
+
+
+<h2>
+Company Profile
+</h2>
+
+
+<p class="subtitle">
+Manage your company information and recruiter presence.
+</p>
+
+</div>
+
+
+
+<button
+class="save-button"
+[disabled]="isSaving"
+(click)="saveChanges()"
+>
+@if (isSaving) {
+Saving...
+} @else {
+Save changes
+}
+</button>
+
+
+</section>
+
+
+@if (companySaved) {
+<div class="save-success">
+Company information saved successfully.
+</div>
+}
+
+
+@if (saveError) {
+<div class="save-error">
+{{ saveError }}
+</div>
+}
+
+
+
+
+
+<section class="company-card">
+
+
+<div class="company-logo">
+N
+</div>
+
+
+<div class="company-info">
+
+<h1>
+{{company.name}}
+</h1>
+
+
+<p>
+{{company.industry}}
+</p>
+
+
+<span>
+{{company.location}}
+</span>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<section class="form-card">
+
+
+<h3>
+Company information
+</h3>
+
+
+
+<div class="grid">
+
+
+<div class="field">
+
+<label>
+Company name
+</label>
+
+
+<input
+[(ngModel)]="company.name"
+/>
+
+</div>
+
+
+
+
+<div class="field">
+
+<label>
+Industry
+</label>
+
+
+<input
+[(ngModel)]="company.industry"
+/>
+
+</div>
+
+
+
+
+
+
+<div class="field">
+
+<label>
+Location
+</label>
+
+
+<input
+[(ngModel)]="company.location"
+/>
+
+</div>
+
+
+
+
+
+
+<div class="field">
+
+<label>
+Website
+</label>
+
+
+<input
+[(ngModel)]="company.website"
+/>
+
+</div>
+
+
+
+
+
+
+<div class="field">
+
+<label>
+Employees
+</label>
+
+
+<input
+[(ngModel)]="company.employees"
+/>
+
+</div>
+
+
+
+
+
+
+<div class="field">
+
+<label>
+Contact email
+</label>
+
+
+<input
+[(ngModel)]="company.email"
+/>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div class="field full">
+
+<label>
+Company description
+</label>
+
+
+<textarea
+rows="5"
+[(ngModel)]="company.description">
+</textarea>
+
+
+</div>
+
+
+
+
+</section>
+
+
+
+</div>

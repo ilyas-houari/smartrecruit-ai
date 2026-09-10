@@ -1,0 +1,936 @@
+<div class="profile-page">
+
+  <!-- =====================================
+       NOT FOUND
+       ===================================== -->
+
+  @if (candidateNotFound) {
+
+    <section class="not-found-card">
+
+      <h2>
+        Candidate not found
+      </h2>
+
+      <p>
+        The requested candidate does not exist in the current mock data.
+      </p>
+
+      <a
+        routerLink="/recruiter/candidates"
+        class="back-link"
+      >
+        ← Back to candidates
+      </a>
+
+    </section>
+
+  } @else {
+
+    <!-- =====================================
+         BACK
+         ===================================== -->
+
+    <section class="back">
+
+      <a
+        routerLink="/recruiter/candidates"
+      >
+        ← Back to candidates
+      </a>
+
+    </section>
+
+
+    <!-- =====================================
+         PROFILE HEADER
+         ===================================== -->
+
+    <section class="profile-header">
+
+      <div class="avatar">
+
+        {{
+          candidate.firstName.charAt(0)
+        }}
+
+        {{
+          candidate.lastName.charAt(0)
+        }}
+
+      </div>
+
+
+      <div class="identity">
+
+        <h1>
+          {{ candidate.firstName }}
+          {{ candidate.lastName }}
+        </h1>
+
+        <h2>
+          {{ candidate.matchingResult.jobTitle }}
+        </h2>
+
+        <p>
+          📍
+          {{ candidate.city }},
+          {{ candidate.country }}
+        </p>
+
+        <p>
+          Experience:
+          {{
+            candidate.totalExperienceMonths
+          }}
+          months
+        </p>
+
+      </div>
+
+
+      <div class="match">
+
+        <strong>
+          {{
+            candidate
+              .matchingResult
+              .finalScore
+          }}%
+        </strong>
+
+        <span>
+          AI Match
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================
+         CONTENT
+         ===================================== -->
+
+    <section class="content">
+
+
+      <!-- =================================
+           MAIN
+           ================================= -->
+
+      <div class="main">
+
+
+        <!-- =================================
+             PROFESSIONAL SUMMARY
+             ================================= -->
+
+        <div class="card">
+
+          <h3>
+            Professional Summary
+          </h3>
+
+          <p>
+            {{ candidate.bio }}
+          </p>
+
+        </div>
+
+
+        <!-- =================================
+             MATCHING BREAKDOWN
+             ================================= -->
+
+        <div class="card">
+
+          <div class="card-heading">
+
+            <div>
+
+              <p class="section-label">
+                AI MATCHING
+              </p>
+
+              <h3>
+                Matching Breakdown
+              </h3>
+
+            </div>
+
+
+            <strong class="overall-match">
+              {{
+                candidate
+                  .matchingResult
+                  .finalScore
+              }}%
+            </strong>
+
+          </div>
+
+
+          <div class="matching-grid">
+
+
+            <!-- SKILLS -->
+
+            <div class="matching-factor">
+
+              <div class="factor-heading">
+
+                <span>
+                  Skills
+                </span>
+
+                <strong>
+                  {{
+                    candidate
+                      .matchingResult
+                      .skillScore
+                  }}%
+                </strong>
+
+              </div>
+
+
+              <div class="factor-bar">
+
+                <span
+                  [style.width.%]="
+                    candidate
+                      .matchingResult
+                      .skillScore
+                  "
+                ></span>
+
+              </div>
+
+
+              <small>
+                Weight: 50%
+              </small>
+
+            </div>
+
+
+            <!-- EXPERIENCE -->
+
+            <div class="matching-factor">
+
+              <div class="factor-heading">
+
+                <span>
+                  Experience
+                </span>
+
+                <strong>
+                  {{
+                    candidate
+                      .matchingResult
+                      .experienceScore
+                  }}%
+                </strong>
+
+              </div>
+
+
+              <div class="factor-bar">
+
+                <span
+                  [style.width.%]="
+                    candidate
+                      .matchingResult
+                      .experienceScore
+                  "
+                ></span>
+
+              </div>
+
+
+              <small>
+                Weight: 30%
+              </small>
+
+            </div>
+
+
+            <!-- EDUCATION -->
+
+            <div class="matching-factor">
+
+              <div class="factor-heading">
+
+                <span>
+                  Education
+                </span>
+
+                <strong>
+                  {{
+                    candidate
+                      .matchingResult
+                      .educationScore
+                  }}%
+                </strong>
+
+              </div>
+
+
+              <div class="factor-bar">
+
+                <span
+                  [style.width.%]="
+                    candidate
+                      .matchingResult
+                      .educationScore
+                  "
+                ></span>
+
+              </div>
+
+
+              <small>
+                Weight: 20%
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div class="matching-explanation">
+
+            <strong>
+              Matching explanation
+            </strong>
+
+            <p>
+              {{
+                candidate
+                  .matchingResult
+                  .explanation
+              }}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             SKILLS
+             ================================= -->
+
+        <div class="card">
+
+          <div class="card-heading">
+
+            <h3>
+              Candidate Skills
+            </h3>
+
+            <span class="count-label">
+              {{
+                candidate
+                  .candidateSkills
+                  .length
+              }}
+              skills
+            </span>
+
+          </div>
+
+
+          <div class="skills">
+
+            @for (
+              skill of candidate.candidateSkills;
+              track skill.skillId
+            ) {
+
+              <div class="skill-item">
+
+                <strong>
+                  {{ skill.name }}
+                </strong>
+
+                <span
+                  class="skill-level"
+                  [class.beginner]="
+                    skill.level === 'BEGINNER'
+                  "
+                  [class.intermediate]="
+                    skill.level === 'INTERMEDIATE'
+                  "
+                  [class.advanced]="
+                    skill.level === 'ADVANCED'
+                  "
+                  [class.expert]="
+                    skill.level === 'EXPERT'
+                  "
+                >
+                  {{
+                    skillLevelLabel(
+                      skill.level
+                    )
+                  }}
+                </span>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             MISSING SKILLS
+             ================================= -->
+
+        <div class="card">
+
+          <div class="card-heading">
+
+            <h3>
+              Missing Skills
+            </h3>
+
+            <span class="count-label">
+              {{
+                candidate
+                  .matchingResult
+                  .missingSkills
+                  .length
+              }}
+              gaps
+            </span>
+
+          </div>
+
+
+          @if (
+            candidate
+              .matchingResult
+              .missingSkills
+              .length > 0
+          ) {
+
+            <div class="missing-skills">
+
+              @for (
+                skill of candidate
+                  .matchingResult
+                  .missingSkills;
+                track skill.skillId
+              ) {
+
+                <div class="missing-skill-item">
+
+                  <div>
+
+                    <strong>
+                      {{ skill.name }}
+                    </strong>
+
+                    <span>
+                      Missing requirement
+                    </span>
+
+                  </div>
+
+
+                  <span
+                    class="importance"
+                    [class.high]="
+                      skill.importance === 'HIGH'
+                    "
+                    [class.critical]="
+                      skill.importance === 'CRITICAL'
+                    "
+                    [class.medium]="
+                      skill.importance === 'MEDIUM'
+                    "
+                    [class.low]="
+                      skill.importance === 'LOW'
+                    "
+                  >
+                    {{ skill.importance }}
+                  </span>
+
+                </div>
+
+              }
+
+            </div>
+
+          } @else {
+
+            <div class="empty-state">
+              No important skill gaps detected.
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- =================================
+             EXPERIENCE
+             ================================= -->
+
+        <div class="card">
+
+          <div class="card-heading">
+
+            <h3>
+              Professional Experience
+            </h3>
+
+            <span class="count-label">
+              {{
+                candidate
+                  .experiences
+                  .length
+              }}
+              records
+            </span>
+
+          </div>
+
+
+          <div class="experience-list">
+
+            @for (
+              experience of candidate.experiences;
+              track experience.id
+            ) {
+
+              <article class="experience-item">
+
+                <div class="timeline-marker">
+                  <span></span>
+                </div>
+
+
+                <div class="experience-content">
+
+                  <div class="experience-heading">
+
+                    <div>
+
+                      <h4>
+                        {{ experience.jobTitle }}
+                      </h4>
+
+                      <p>
+                        {{ experience.companyName }}
+                      </p>
+
+                    </div>
+
+
+                    <span>
+                      {{ experience.startDate }}
+                      —
+
+                      @if (experience.isCurrent) {
+                        Present
+                      } @else {
+                        {{ experience.endDate }}
+                      }
+                    </span>
+
+                  </div>
+
+
+                  <p class="experience-description">
+                    {{ experience.description }}
+                  </p>
+
+
+                  <small>
+                    {{ experience.durationMonths }}
+                    months
+                  </small>
+
+                </div>
+
+              </article>
+
+            } @empty {
+
+              <div class="empty-state">
+                No professional experience available.
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             EDUCATION
+             ================================= -->
+
+        <div class="card">
+
+          <div class="card-heading">
+
+            <h3>
+              Education
+            </h3>
+
+            <span class="count-label">
+              {{
+                candidate
+                  .educations
+                  .length
+              }}
+              records
+            </span>
+
+          </div>
+
+
+          <div class="education-list">
+
+            @for (
+              education of candidate.educations;
+              track education.id
+            ) {
+
+              <article class="education-item">
+
+                <div class="education-icon">
+                  🎓
+                </div>
+
+
+                <div>
+
+                  <h4>
+                    {{ education.degree }}
+                  </h4>
+
+                  <p>
+                    {{ education.institution }}
+                  </p>
+
+
+                  <div class="education-meta">
+
+                    <span>
+                      {{ education.field }}
+                    </span>
+
+                    <i></i>
+
+                    <span>
+                      {{ education.startYear }}
+                      —
+
+                      @if (
+                        education.endYear !== null
+                      ) {
+                        {{ education.endYear }}
+                      } @else {
+                        Present
+                      }
+
+                    </span>
+
+                    <i></i>
+
+                    <span>
+                      {{
+                        educationLevelLabel(
+                          education.level
+                        )
+                      }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            } @empty {
+
+              <div class="empty-state">
+                No education information available.
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             CONTACT INFORMATION
+             ================================= -->
+
+        <div class="card">
+
+          <h3>
+            Candidate Information
+          </h3>
+
+
+          <div class="info-grid">
+
+            <div>
+
+              <label>
+                Email
+              </label>
+
+              <p>
+                {{ candidate.email }}
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Phone
+              </label>
+
+              <p>
+                {{ candidate.phone }}
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                Highest Education
+              </label>
+
+              <p>
+                {{
+                  educationLevelLabel(
+                    candidate.highestEducationLevel
+                  )
+                }}
+              </p>
+
+            </div>
+
+
+            <div>
+
+              <label>
+                CV Status
+              </label>
+
+              <p
+                class="cv-status"
+                [class.validated]="
+                  candidate.cvStatus === 'VALIDATED'
+                "
+                [class.analyzed]="
+                  candidate.cvStatus === 'ANALYZED'
+                "
+                [class.processing]="
+                  candidate.cvStatus === 'PROCESSING'
+                "
+                [class.failed]="
+                  candidate.cvStatus === 'FAILED'
+                "
+              >
+                {{
+                  cvStatusLabel(
+                    candidate.cvStatus
+                  )
+                }}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================
+           SIDE
+           ================================= -->
+
+      <aside class="side-column">
+
+
+        <!-- APPLICATION -->
+
+        <section class="side-card">
+
+          <p class="side-label">
+            APPLICATION
+          </p>
+
+          <h3>
+            Application Details
+          </h3>
+
+
+          <div class="side-info">
+
+            <div>
+
+              <span>
+                Job
+              </span>
+
+              <strong>
+                {{
+                  candidate
+                    .matchingResult
+                    .jobTitle
+                }}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Application ID
+              </span>
+
+              <strong>
+                #
+                {{
+                  candidate
+                    .matchingResult
+                    .applicationId
+                }}
+              </strong>
+
+            </div>
+
+
+            <div>
+
+              <span>
+                Final Match
+              </span>
+
+              <strong class="side-match">
+                {{
+                  candidate
+                    .matchingResult
+                    .finalScore
+                }}%
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <a
+            class="application-button"
+            [routerLink]="[
+              '/recruiter/applications',
+              candidate
+                .matchingResult
+                .applicationId
+            ]"
+          >
+            Review Application →
+          </a>
+
+        </section>
+
+
+        <!-- MATCHING FORMULA -->
+
+        <section class="formula-card">
+
+          <p class="side-label">
+            MATCHING FORMULA
+          </p>
+
+          <h3>
+            SmartRecruit AI Score
+          </h3>
+
+
+          <div class="formula-row">
+
+            <span>
+              Skills
+            </span>
+
+            <strong>
+              50%
+            </strong>
+
+          </div>
+
+
+          <div class="formula-row">
+
+            <span>
+              Experience
+            </span>
+
+            <strong>
+              30%
+            </strong>
+
+          </div>
+
+
+          <div class="formula-row">
+
+            <span>
+              Education
+            </span>
+
+            <strong>
+              20%
+            </strong>
+
+          </div>
+
+
+          <div class="formula-total">
+
+            <span>
+              Final Score
+            </span>
+
+            <strong>
+              {{
+                candidate
+                  .matchingResult
+                  .finalScore
+              }}%
+            </strong>
+
+          </div>
+
+        </section>
+
+      </aside>
+
+    </section>
+
+  }
+
+</div>

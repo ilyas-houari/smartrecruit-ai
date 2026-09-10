@@ -1,0 +1,498 @@
+:host {
+  display: block;
+
+  position: sticky;
+  top: 0;
+
+  height: 100vh;
+
+  align-self: flex-start;
+  flex-shrink: 0;
+
+  z-index: 100;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/* =====================================
+   SIDEBAR
+   ===================================== */
+
+.sidebar {
+  width: 255px;
+  height: 100vh;
+
+  position: relative;
+
+  padding: 20px 14px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      #081625 0%,
+      #0b1c30 100%
+    );
+
+  color: #ffffff;
+
+  transition:
+    width 0.25s ease;
+}
+
+
+.sidebar.collapsed {
+  width: 82px;
+}
+
+
+/* =====================================
+   HEADER
+   ===================================== */
+
+.sidebar-header {
+  min-height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+
+.brand {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  color: white;
+
+  text-decoration: none;
+}
+
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 11px;
+
+  background: #58e0ba;
+
+  color: #07111f;
+
+  font-size: 18px;
+  font-weight: 800;
+}
+
+
+.brand-name {
+  white-space: nowrap;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  transition:
+    opacity 0.2s ease,
+    width 0.2s ease;
+}
+
+
+.brand-name strong {
+  color: #58e0ba;
+}
+
+
+/* =====================================
+   COLLAPSE BUTTON
+   ===================================== */
+
+.collapse-button {
+  width: 30px;
+  height: 30px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: none;
+  border-radius: 8px;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  color: #8fa4ba;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+
+.collapse-button:hover {
+  background:
+    rgba(255, 255, 255, 0.1);
+
+  color: #ffffff;
+}
+
+
+.collapse-button svg {
+  width: 16px;
+  height: 16px;
+
+  transition:
+    transform 0.25s ease;
+}
+
+
+.collapsed
+.collapse-button svg {
+  transform: rotate(180deg);
+}
+
+
+/* =====================================
+   USER
+   ===================================== */
+
+.user-card {
+  margin: 25px 0 22px;
+  padding: 11px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.06);
+
+  border-radius: 12px;
+
+  background:
+    rgba(255, 255, 255, 0.035);
+}
+
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: #153654;
+
+  color: #b7d8ee;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+
+.user-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  transition:
+    opacity 0.2s ease;
+}
+
+
+.user-info strong {
+  overflow: hidden;
+
+  color: #eef4f8;
+
+  font-size: 12px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.user-info span {
+  margin-top: 2px;
+
+  color: #6f879e;
+
+  font-size: 10px;
+}
+
+
+/* =====================================
+   NAVIGATION
+   ===================================== */
+
+.navigation {
+  min-height: 0;
+
+  flex: 1;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color:
+    rgba(255, 255, 255, 0.1)
+    transparent;
+}
+
+
+.navigation::-webkit-scrollbar {
+  width: 4px;
+}
+
+
+.navigation::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.navigation::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background:
+    rgba(255, 255, 255, 0.1);
+}
+
+
+.nav-label {
+  margin:
+    0 10px 9px;
+
+  color: #526a83;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 1.1px;
+
+  text-transform: uppercase;
+}
+
+
+.nav-item {
+  min-height: 44px;
+
+  margin-bottom: 4px;
+  padding: 0 11px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  border-radius: 10px;
+
+  color: #8298ad;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+
+.nav-item:hover {
+  background:
+    rgba(255, 255, 255, 0.055);
+
+  color: #dce7ef;
+}
+
+
+.nav-item.active {
+  background:
+    rgba(88, 224, 186, 0.1);
+
+  color: #65e2bd;
+}
+
+
+.nav-item svg {
+  width: 18px;
+  height: 18px;
+
+  flex-shrink: 0;
+}
+
+
+.nav-item span {
+  white-space: nowrap;
+}
+
+
+/* =====================================
+   FOOTER
+   ===================================== */
+
+.sidebar-footer {
+  flex-shrink: 0;
+
+  padding-top: 14px;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.06);
+}
+
+
+.logout-button {
+  min-height: 42px;
+
+  padding: 0 11px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  border-radius: 10px;
+
+  color: #8298ad;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+
+.logout-button:hover {
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  color: #ffffff;
+}
+
+
+.logout-button svg {
+  width: 18px;
+  height: 18px;
+
+  flex-shrink: 0;
+}
+
+
+/* =====================================
+   COLLAPSED
+   ===================================== */
+
+.sidebar.collapsed
+.brand-name,
+
+.sidebar.collapsed
+.user-info,
+
+.sidebar.collapsed
+.nav-label,
+
+.sidebar.collapsed
+.nav-item span,
+
+.sidebar.collapsed
+.logout-button span {
+  width: 0;
+
+  opacity: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+
+.sidebar.collapsed
+.sidebar-header {
+  justify-content: center;
+
+  flex-direction: column;
+}
+
+
+.sidebar.collapsed
+.user-card {
+  padding: 8px;
+
+  justify-content: center;
+}
+
+
+.sidebar.collapsed
+.nav-item,
+
+.sidebar.collapsed
+.logout-button {
+  justify-content: center;
+
+  padding: 0;
+}
+
+
+/* =====================================
+   MOBILE
+   ===================================== */
+
+@media (max-width: 800px) {
+
+  .sidebar {
+    width: 82px;
+  }
+
+
+  .brand-name,
+  .user-info,
+  .nav-label,
+  .nav-item span,
+  .logout-button span,
+  .collapse-button {
+    display: none;
+  }
+
+
+  .sidebar-header,
+  .user-card,
+  .nav-item,
+  .logout-button {
+    justify-content: center;
+  }
+
+}

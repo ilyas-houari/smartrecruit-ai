@@ -1,0 +1,661 @@
+<div class="auth-shell">
+
+  <!-- =========================================
+       LEFT SIDE — PRODUCT / AI PRESENTATION
+       ========================================= -->
+
+  <aside class="visual-panel">
+
+    <div class="visual-grid"></div>
+    <div class="visual-glow visual-glow-one"></div>
+    <div class="visual-glow visual-glow-two"></div>
+
+    <div class="visual-content">
+
+      <!-- BRAND -->
+
+      <div class="brand">
+
+        <div class="brand-mark">
+          <span>S</span>
+        </div>
+
+        <div class="brand-name">
+          SmartRecruit
+          <strong>AI</strong>
+        </div>
+
+      </div>
+
+
+      <!-- MAIN MESSAGE -->
+
+      <div class="hero">
+
+        <div class="hero-badge">
+          <span class="status-dot"></span>
+          AI-powered recruitment
+        </div>
+
+        <h1>
+          Recruit smarter.
+          <span>Match with confidence.</span>
+        </h1>
+
+        <p class="hero-description">
+          SmartRecruit AI transforms candidate profiles into meaningful
+          insights using intelligent CV analysis, matching and ranking.
+        </p>
+
+
+        <!-- AI MATCHING DEMO -->
+
+        <div class="match-card">
+
+          <div class="match-header">
+
+            <div>
+              <span class="match-label">
+                LIVE MATCHING PREVIEW
+              </span>
+
+              <h3>
+                Java Backend Developer
+              </h3>
+            </div>
+
+            <div class="live-status">
+              <span></span>
+              Analyzed
+            </div>
+
+          </div>
+
+
+          <div class="candidate-row">
+
+            <div class="candidate">
+
+              <div class="candidate-avatar">
+                JD
+              </div>
+
+              <div>
+                <span class="candidate-label">
+                  Candidate
+                </span>
+
+                <strong>
+                  Jamie Diaz
+                </strong>
+              </div>
+
+            </div>
+
+
+            <div class="match-arrow">
+
+              <span></span>
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14"></path>
+                <path d="m14 7 5 5-5 5"></path>
+              </svg>
+
+            </div>
+
+
+            <div class="score-circle">
+
+              <div>
+                <strong>
+                  87.5
+                </strong>
+
+                <span>
+                  MATCH
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="score-breakdown">
+
+            <div class="score-item">
+
+              <div class="score-info">
+                <span>Skills</span>
+                <strong>75%</strong>
+              </div>
+
+              <div class="progress">
+                <span style="width: 75%"></span>
+              </div>
+
+            </div>
+
+
+            <div class="score-item">
+
+              <div class="score-info">
+                <span>Experience</span>
+                <strong>100%</strong>
+              </div>
+
+              <div class="progress">
+                <span style="width: 100%"></span>
+              </div>
+
+            </div>
+
+
+            <div class="score-item">
+
+              <div class="score-info">
+                <span>Education</span>
+                <strong>100%</strong>
+              </div>
+
+              <div class="progress">
+                <span style="width: 100%"></span>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="match-footer">
+
+            <div class="skill-chip success">
+              Java
+            </div>
+
+            <div class="skill-chip success">
+              Spring Boot
+            </div>
+
+            <div class="skill-chip success">
+              MySQL
+            </div>
+
+            <div class="skill-chip missing">
+              + Docker missing
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- BOTTOM -->
+
+      <div class="feature-line">
+
+        <span>
+          CV Analysis
+        </span>
+
+        <i></i>
+
+        <span>
+          Candidate Ranking
+        </span>
+
+        <i></i>
+
+        <span>
+          Smart Recommendations
+        </span>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =========================================
+       RIGHT SIDE — LOGIN
+       ========================================= -->
+
+  <main class="form-panel">
+
+    <div class="form-container">
+
+
+      <!-- MOBILE LOGO -->
+
+      <div class="mobile-brand">
+
+        <div class="brand-mark">
+          <span>S</span>
+        </div>
+
+        <div class="brand-name">
+          SmartRecruit
+          <strong>AI</strong>
+        </div>
+
+      </div>
+
+
+      <!-- LOGIN CARD -->
+
+      <div class="login-card">
+
+        <header class="form-header">
+
+          <div class="secure-badge">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M12 22s8-4 8-10V5l-8-3-8
+                   3v7c0 6 8 10 8 10Z"
+              ></path>
+
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+
+            Secure access
+
+          </div>
+
+
+          <h2>
+            Welcome back
+          </h2>
+
+          <p>
+            Sign in to continue to your SmartRecruit AI workspace.
+          </p>
+
+        </header>
+
+
+        <!-- ERROR -->
+
+        @if (errorMessage) {
+
+          <div
+            class="alert alert-error"
+            role="alert"
+          >
+
+            <div class="alert-icon">
+              !
+            </div>
+
+            <span>
+              {{ errorMessage }}
+            </span>
+
+          </div>
+
+        }
+
+
+        <!-- TEMP SUCCESS -->
+
+        @if (formValidated) {
+
+          <div
+            class="alert alert-success"
+            role="status"
+          >
+
+            <div class="alert-icon">
+              ✓
+            </div>
+
+            <span>
+              Form validated successfully.
+              Backend authentication will be connected next.
+            </span>
+
+          </div>
+
+        }
+
+
+        <!-- FORM -->
+
+        <form
+          [formGroup]="loginForm"
+          (ngSubmit)="onSubmit()"
+          novalidate
+        >
+
+
+          <!-- EMAIL -->
+
+          <div class="form-group">
+
+            <label for="email">
+              Email address
+            </label>
+
+
+            <div
+              class="input-container"
+              [class.has-error]="email.invalid && email.touched"
+            >
+
+              <span class="input-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="14"
+                    rx="2"
+                  ></rect>
+
+                  <path d="m3 7 9 6 9-6"></path>
+                </svg>
+
+              </span>
+
+
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                placeholder="name@example.com"
+                autocomplete="email"
+                [attr.aria-invalid]="email.invalid && email.touched"
+              >
+
+            </div>
+
+
+            @if (
+              email.touched &&
+              email.hasError('required')
+            ) {
+
+              <small class="field-error">
+                Email address is required.
+              </small>
+
+            }
+
+
+            @if (
+              email.touched &&
+              email.hasError('email')
+            ) {
+
+              <small class="field-error">
+                Please enter a valid email address.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- PASSWORD -->
+
+          <div class="form-group">
+
+            <div class="label-row">
+
+              <label for="password">
+                Password
+              </label>
+
+            </div>
+
+
+            <div
+              class="input-container"
+              [class.has-error]="
+                password.invalid &&
+                password.touched
+              "
+            >
+
+              <span class="input-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <rect
+                    x="5"
+                    y="10"
+                    width="14"
+                    height="10"
+                    rx="2"
+                  ></rect>
+
+                  <path
+                    d="M8 10V7a4 4 0
+                       0 1 8 0v3"
+                  ></path>
+                </svg>
+
+              </span>
+
+
+              <input
+                id="password"
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                [attr.aria-invalid]="
+                  password.invalid &&
+                  password.touched
+                "
+              >
+
+
+              <button
+                class="password-toggle"
+                type="button"
+                [attr.aria-label]="
+                  showPassword
+                    ? 'Hide password'
+                    : 'Show password'
+                "
+                (click)="togglePasswordVisibility()"
+              >
+
+                @if (showPassword) {
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                  >
+                    <path
+                      d="M17.94 17.94A10.94
+                         10.94 0 0 1 12 20
+                         c-7 0-11-8-11-8
+                         a20.3 20.3 0 0 1
+                         5.06-5.94"
+                    ></path>
+
+                    <path
+                      d="M9.9 4.24A9.12
+                         9.12 0 0 1 12 4
+                         c7 0 11 8 11 8
+                         a20.3 20.3 0 0 1
+                         -2.16 3.19"
+                    ></path>
+
+                    <line
+                      x1="1"
+                      y1="1"
+                      x2="23"
+                      y2="23"
+                    ></line>
+
+                  </svg>
+
+                } @else {
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                  >
+
+                    <path
+                      d="M2 12s3.5-7
+                         10-7 10 7 10
+                         7-3.5 7-10
+                         7S2 12 2 12Z"
+                    ></path>
+
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="3"
+                    ></circle>
+
+                  </svg>
+
+                }
+
+              </button>
+
+            </div>
+
+
+            @if (
+              password.touched &&
+              password.hasError('required')
+            ) {
+
+              <small class="field-error">
+                Password is required.
+              </small>
+
+            }
+
+
+            @if (
+              password.touched &&
+              password.hasError('minlength')
+            ) {
+
+              <small class="field-error">
+                Password must contain at least 6 characters.
+              </small>
+
+            }
+
+          </div>
+
+
+          <!-- BUTTON -->
+
+          <button
+            class="submit-button"
+            type="submit"
+            [disabled]="isLoading"
+          >
+
+            @if (isLoading) {
+
+              <span class="spinner"></span>
+
+              <span>
+                Signing in...
+              </span>
+
+            } @else {
+
+              <span>
+                Sign in
+              </span>
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14"></path>
+                <path d="m14 7 5 5-5 5"></path>
+              </svg>
+
+            }
+
+          </button>
+
+        </form>
+
+
+        <!-- CREATE ACCOUNT -->
+
+        <div class="account-divider">
+
+          <span></span>
+
+          <p>
+            New to SmartRecruit AI?
+          </p>
+
+          <span></span>
+
+        </div>
+
+
+        <a
+          routerLink="/register"
+          class="create-account-button"
+        >
+
+          Create your account
+
+        </a>
+
+
+        <!-- ACCESS TYPES -->
+
+        <div class="access-types">
+
+          <span>Candidate</span>
+          <i></i>
+          <span>Recruiter</span>
+          <i></i>
+          <span>Administrator</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

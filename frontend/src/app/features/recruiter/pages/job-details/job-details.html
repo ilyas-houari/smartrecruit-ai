@@ -1,0 +1,428 @@
+<div class="job-details-page">
+
+
+  <!-- HEADER -->
+
+  <section class="header">
+
+
+    <div class="job-heading">
+
+
+      <button
+        type="button"
+        class="back-button"
+        (click)="backToJobs()"
+      >
+        ← Back to Jobs
+      </button>
+
+
+
+      <p class="eyebrow">
+        RECRUITER WORKSPACE
+      </p>
+
+
+
+      <div class="title-row">
+
+
+        <h1>
+          {{ job.title }}
+        </h1>
+
+
+
+        <span
+          class="status-badge"
+
+          [class.published]="job.status === 'PUBLISHED'"
+
+          [class.closed]="job.status === 'CLOSED'"
+
+          [class.archived]="job.status === 'ARCHIVED'"
+
+          [class.draft]="job.status === 'DRAFT'"
+        >
+
+          {{ statusLabel }}
+
+        </span>
+
+
+      </div>
+
+
+
+
+      <p class="location">
+        📍 {{ job.location }}
+      </p>
+
+
+
+
+      <div class="job-meta">
+
+
+        <span>
+          {{ workModeLabel(job.workMode) }}
+        </span>
+
+
+        <span>
+          {{ contractTypeLabel(job.contractType) }}
+        </span>
+
+
+      </div>
+
+
+    </div>
+
+
+
+
+
+    <div class="header-actions">
+
+
+      <button
+        class="edit-button"
+        type="button"
+        (click)="editJob()"
+      >
+
+        Edit Job
+
+      </button>
+
+
+
+
+
+      @if(job.status === 'PUBLISHED') {
+
+
+        <button
+          class="close-button"
+          type="button"
+          (click)="closeJob()"
+        >
+
+          Close Job
+
+        </button>
+
+
+      }
+
+
+
+
+
+      @if(job.status === 'CLOSED') {
+
+
+        <button
+          class="archive-button"
+          type="button"
+          (click)="archiveJob()"
+        >
+
+          Archive Job
+
+        </button>
+
+
+      }
+
+
+
+    </div>
+
+
+
+  </section>
+
+
+
+
+
+  @if(successMessage) {
+
+
+    <div class="success-message">
+
+      {{ successMessage }}
+
+    </div>
+
+
+  }
+
+
+
+
+
+  <!-- CONTENT -->
+
+
+  <section class="content">
+
+
+    <div class="main">
+
+
+
+
+
+      <div class="card">
+
+
+        <h2>
+          Job Description
+        </h2>
+
+
+        <p>
+          {{ job.description }}
+        </p>
+
+
+      </div>
+
+
+
+
+
+
+
+      <div class="card">
+
+
+        <h2>
+          Required Skills
+        </h2>
+
+
+
+        <div class="skills">
+
+
+          @for(skill of job.skills; track skill){
+
+
+            <span>
+              {{ skill }}
+            </span>
+
+
+          }
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+      <div class="card">
+
+
+        <h2>
+          Job Requirements
+        </h2>
+
+
+
+        <div class="info-grid">
+
+
+
+          <div>
+
+            <span class="info-label">
+              Experience
+            </span>
+
+
+            <strong>
+              {{ job.requiredExperienceYears }} years
+            </strong>
+
+
+          </div>
+
+
+
+
+          <div>
+
+            <span class="info-label">
+              Education
+            </span>
+
+
+            <strong>
+              {{ educationLevelLabel(job.requiredEducationLevel) }}
+            </strong>
+
+
+          </div>
+
+
+
+
+
+          <div>
+
+            <span class="info-label">
+              Work Mode
+            </span>
+
+
+            <strong>
+              {{ job.workMode }}
+            </strong>
+
+
+          </div>
+
+
+
+
+
+          <div>
+
+            <span class="info-label">
+              Contract
+            </span>
+
+
+            <strong>
+              {{ job.contractType }}
+            </strong>
+
+
+          </div>
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+      <div class="card">
+
+
+        <h2>
+          Salary Range
+        </h2>
+
+
+        <p class="salary">
+
+          {{ job.salaryMin }}
+          -
+          {{ job.salaryMax }}
+
+          MAD
+
+        </p>
+
+
+      </div>
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+    <!-- SIDE PANEL -->
+
+
+    <aside class="side">
+
+
+
+      <p class="side-label">
+        APPLICATIONS
+      </p>
+
+
+
+
+      <strong class="application-count">
+
+        {{ job.applicants }}
+
+      </strong>
+
+
+
+
+      <p>
+        Candidates applied
+      </p>
+
+
+
+
+
+      <button
+
+        type="button"
+
+        class="applications-button"
+
+        (click)="viewApplications()"
+
+      >
+
+        Review Applications →
+
+      </button>
+
+
+
+
+
+    </aside>
+
+
+
+
+
+  </section>
+
+
+
+
+
+</div>

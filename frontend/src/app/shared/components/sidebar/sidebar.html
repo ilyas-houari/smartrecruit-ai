@@ -1,0 +1,150 @@
+<aside
+  class="sidebar"
+  [class.collapsed]="collapsed"
+>
+
+
+<header class="sidebar-header">
+
+
+  <a class="brand">
+
+    <div class="brand-mark">
+      S
+    </div>
+
+
+    @if(!collapsed){
+
+      <span class="brand-name">
+        Smart<span>Recruit</span>
+      </span>
+
+    }
+
+
+  </a>
+
+
+
+  <button
+    class="collapse-button"
+    type="button"
+    (click)="toggleSidebar()"
+  >
+
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+
+      <path d="m15 18-6-6 6-6"></path>
+
+    </svg>
+
+
+  </button>
+
+
+</header>
+
+
+
+
+<section class="user-card">
+
+
+<div class="user-avatar">
+  {{avatarText}}
+</div>
+
+
+@if(!collapsed){
+
+<div class="user-info">
+
+<strong>
+  {{userName}}
+</strong>
+
+
+<span>
+  {{role | titlecase}}
+</span>
+
+
+</div>
+
+}
+
+
+</section>
+
+
+
+
+
+<nav class="navigation">
+
+
+<p class="nav-label">
+
+  {{role | titlecase}}
+
+</p>
+
+
+
+@for(
+ item of menuItems;
+ track item.route
+){
+
+<a
+  class="nav-item"
+  [routerLink]="item.route"
+  routerLinkActive="active"
+>
+
+
+<span>
+  {{item.label}}
+</span>
+
+
+</a>
+
+
+}
+
+
+
+</nav>
+
+
+
+
+<footer class="sidebar-footer">
+
+
+<a
+ class="logout-button"
+ (click)="logout()"
+>
+
+
+<span>
+ Logout
+</span>
+
+
+</a>
+
+
+</footer>
+
+
+
+</aside>

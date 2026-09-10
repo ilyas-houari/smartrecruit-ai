@@ -1,0 +1,371 @@
+<div class="jobs-page">
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        ADMINISTRATION WORKSPACE
+      </p>
+
+      <h1>
+        Jobs
+      </h1>
+
+      <p class="subtitle">
+        Monitor and manage job offers across the platform.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <section class="stats-grid">
+
+    <div class="stat-card">
+
+      <span>
+        Total Jobs
+      </span>
+
+      <strong>
+        {{ totalJobs }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Published
+      </span>
+
+      <strong>
+        {{ publishedJobs }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Draft
+      </span>
+
+      <strong>
+        {{ draftJobs }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Closed
+      </span>
+
+      <strong>
+        {{ closedJobs }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Archived
+      </span>
+
+      <strong>
+        {{ archivedJobs }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <section class="filters-card">
+
+    <div class="search-field">
+
+      <input
+        type="text"
+        placeholder="Search job, company or location..."
+        [(ngModel)]="searchTerm"
+      />
+
+    </div>
+
+
+    <div class="filter-field">
+
+      <select [(ngModel)]="selectedStatus">
+
+        <option value="ALL">
+          All statuses
+        </option>
+
+        <option value="DRAFT">
+          Draft
+        </option>
+
+        <option value="PUBLISHED">
+          Published
+        </option>
+
+        <option value="CLOSED">
+          Closed
+        </option>
+
+        <option value="ARCHIVED">
+          Archived
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="filter-field">
+
+      <select [(ngModel)]="selectedWorkMode">
+
+        <option value="ALL">
+          All work modes
+        </option>
+
+        <option value="ONSITE">
+          On-site
+        </option>
+
+        <option value="REMOTE">
+          Remote
+        </option>
+
+        <option value="HYBRID">
+          Hybrid
+        </option>
+
+      </select>
+
+    </div>
+
+  </section>
+
+
+  <section class="jobs-card">
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Job
+            </th>
+
+            <th>
+              Company
+            </th>
+
+            <th>
+              Location
+            </th>
+
+            <th>
+              Work Mode
+            </th>
+
+            <th>
+              Contract
+            </th>
+
+            <th>
+              Applicants
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          @for (job of filteredJobs; track job.id) {
+
+            <tr>
+
+              <td>
+
+                <div class="job-info">
+
+                  <div class="job-avatar">
+                    {{ job.title.charAt(0) }}
+                  </div>
+
+
+                  <div>
+
+                    <strong>
+                      {{ job.title }}
+                    </strong>
+
+                    <span>
+                      ID #{{ job.id }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <span class="company">
+                  {{ job.companyName }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span class="location">
+                  {{ job.location }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span class="work-mode">
+                  {{ workModeLabel(job.workMode) }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span class="contract">
+                  {{ job.contractType }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <strong class="applicant-count">
+                  {{ job.applicants }}
+                </strong>
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="status-badge"
+                  [class.published]="job.status === 'PUBLISHED'"
+                  [class.draft]="job.status === 'DRAFT'"
+                  [class.closed]="job.status === 'CLOSED'"
+                  [class.archived]="job.status === 'ARCHIVED'"
+                >
+                  {{ statusLabel(job.status) }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="actions">
+
+                  @if (job.status === 'PUBLISHED') {
+
+                    <button
+                      type="button"
+                      class="close"
+                      (click)="closeJob(job.id)"
+                    >
+                      Close
+                    </button>
+
+                  }
+
+
+                  @if (job.status === 'CLOSED') {
+
+                    <button
+                      type="button"
+                      class="archive"
+                      (click)="archiveJob(job.id)"
+                    >
+                      Archive
+                    </button>
+
+                  }
+
+
+                  @if (
+                    job.status === 'DRAFT' ||
+                    job.status === 'ARCHIVED'
+                  ) {
+
+                    <span class="no-action">
+                      —
+                    </span>
+
+                  }
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+
+              <td
+                colspan="8"
+                class="empty-state"
+              >
+                No jobs found.
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</div>

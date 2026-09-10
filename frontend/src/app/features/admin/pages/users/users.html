@@ -1,0 +1,337 @@
+<div class="users-page">
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        ADMINISTRATION WORKSPACE
+      </p>
+
+      <h1>
+        Users
+      </h1>
+
+      <p class="subtitle">
+        Manage platform users and account status.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <section class="stats-grid">
+
+    <div class="stat-card">
+
+      <span>
+        Total Users
+      </span>
+
+      <strong>
+        {{ totalUsers }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Active
+      </span>
+
+      <strong>
+        {{ activeUsers }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Inactive
+      </span>
+
+      <strong>
+        {{ inactiveUsers }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Suspended
+      </span>
+
+      <strong>
+        {{ suspendedUsers }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <section class="filters-card">
+
+    <div class="search-field">
+
+      <input
+        type="text"
+        placeholder="Search by name or email..."
+        [(ngModel)]="searchTerm"
+      />
+
+    </div>
+
+
+    <div class="filter-field">
+
+      <select [(ngModel)]="selectedRole">
+
+        <option value="ALL">
+          All roles
+        </option>
+
+        <option value="ADMIN">
+          Admin
+        </option>
+
+        <option value="CANDIDATE">
+          Candidate
+        </option>
+
+        <option value="RECRUITER">
+          Recruiter
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="filter-field">
+
+      <select [(ngModel)]="selectedStatus">
+
+        <option value="ALL">
+          All statuses
+        </option>
+
+        <option value="ACTIVE">
+          Active
+        </option>
+
+        <option value="INACTIVE">
+          Inactive
+        </option>
+
+        <option value="SUSPENDED">
+          Suspended
+        </option>
+
+      </select>
+
+    </div>
+
+  </section>
+
+
+  <section class="users-card">
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              User
+            </th>
+
+            <th>
+              Contact
+            </th>
+
+            <th>
+              Role
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Created
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          @for (user of filteredUsers; track user.id) {
+
+            <tr>
+
+              <td>
+
+                <div class="user-info">
+
+                  <div class="avatar">
+                    {{ user.firstName.charAt(0) }}{{ user.lastName.charAt(0) }}
+                  </div>
+
+
+                  <div>
+
+                    <strong>
+                      {{ fullName(user) }}
+                    </strong>
+
+                    <span>
+                      ID #{{ user.id }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <div class="contact">
+
+                  <strong>
+                    {{ user.email }}
+                  </strong>
+
+                  <span>
+                    {{ user.phone || 'No phone provided' }}
+                  </span>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="role-badge"
+                  [class.admin]="user.role === 'ADMIN'"
+                  [class.candidate]="user.role === 'CANDIDATE'"
+                  [class.recruiter]="user.role === 'RECRUITER'"
+                >
+                  {{ roleLabel(user.role) }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="status-badge"
+                  [class.active]="user.status === 'ACTIVE'"
+                  [class.inactive]="user.status === 'INACTIVE'"
+                  [class.suspended]="user.status === 'SUSPENDED'"
+                >
+                  {{ statusLabel(user.status) }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span class="date">
+                  {{ user.createdAt }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="actions">
+
+                  @if (user.status !== 'ACTIVE') {
+
+                    <button
+                      type="button"
+                      class="activate"
+                      (click)="activateUser(user.id)"
+                    >
+                      Activate
+                    </button>
+
+                  }
+
+
+                  @if (user.status === 'ACTIVE' && user.role !== 'ADMIN') {
+
+                    <button
+                      type="button"
+                      class="deactivate"
+                      (click)="deactivateUser(user.id)"
+                    >
+                      Deactivate
+                    </button>
+
+                  }
+
+
+                  @if (user.role === 'ADMIN') {
+
+                    <span class="protected-admin">
+                      Protected
+                    </span>
+
+                  }
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+
+              <td
+                colspan="6"
+                class="empty-state"
+              >
+                No users found.
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</div>

@@ -1,0 +1,792 @@
+<div class="recommendations-page">
+
+  <!-- =====================================
+       HEADER
+       ===================================== -->
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        AI recommendations
+      </p>
+
+      <h2>
+        Opportunities selected for you.
+      </h2>
+
+      <p class="page-description">
+        SmartRecruit uses your skills, experience and education
+        to recommend jobs and identify useful training opportunities.
+      </p>
+
+    </div>
+
+
+    <div class="ai-status">
+
+      <div class="ai-status-icon">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="4"
+          ></circle>
+
+          <path d="M12 2v3"></path>
+          <path d="M12 19v3"></path>
+          <path d="M4.93 4.93l2.12 2.12"></path>
+          <path d="m16.95 16.95 2.12 2.12"></path>
+          <path d="M2 12h3"></path>
+          <path d="M19 12h3"></path>
+          <path d="m4.93 19.07 2.12-2.12"></path>
+          <path d="m16.95 7.05 2.12-2.12"></path>
+        </svg>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          RECOMMENDATION ENGINE
+        </span>
+
+        <strong>
+          Profile analyzed
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       SUMMARY
+       ===================================== -->
+
+  <section class="summary-grid">
+
+    <!-- JOBS -->
+
+    <article class="summary-card">
+
+      <div class="summary-icon">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <rect
+            x="3"
+            y="7"
+            width="18"
+            height="13"
+            rx="2"
+          ></rect>
+
+          <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Recommended jobs
+        </span>
+
+        <strong>
+          {{ jobRecommendations.length }}
+        </strong>
+
+        <small>
+          Based on profile compatibility
+        </small>
+
+      </div>
+
+    </article>
+
+
+    <!-- TRAININGS -->
+
+    <article class="summary-card">
+
+      <div class="summary-icon training">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path d="m2 10 10-5 10 5-10 5Z"></path>
+
+          <path d="M6 12v5c3 2 9 2 12 0v-5"></path>
+        </svg>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Suggested training
+        </span>
+
+        <strong>
+          {{ trainingRecommendations.length }}
+        </strong>
+
+        <small>
+          Targeting identified skill gaps
+        </small>
+
+      </div>
+
+    </article>
+
+
+    <!-- BEST MATCH -->
+
+    <article class="summary-card">
+
+      <div class="summary-icon match">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path d="m12 2 3 6 7 .8-5 4.7 1.5 6.8L12 17l-6.5 3.3L7 13.5 2 8.8 9 8Z"></path>
+        </svg>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Best match
+        </span>
+
+
+        @if (jobRecommendations.length > 0) {
+
+          <strong>
+            {{
+              jobRecommendations[0].matchingResult.finalScore
+            }}%
+          </strong>
+
+          <small>
+            {{ jobRecommendations[0].title }}
+          </small>
+
+        } @else {
+
+          <strong>
+            —
+          </strong>
+
+          <small>
+            No recommendation available
+          </small>
+
+        }
+
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- =====================================
+       FILTERS
+       ===================================== -->
+
+  <section class="filter-tabs">
+
+    <button
+      type="button"
+      [class.active]="
+        selectedFilter === 'ALL'
+      "
+      (click)="selectFilter('ALL')"
+    >
+      All recommendations
+    </button>
+
+
+    <button
+      type="button"
+      [class.active]="
+        selectedFilter === 'JOBS'
+      "
+      (click)="selectFilter('JOBS')"
+    >
+      Job matches
+
+      <span>
+        {{ jobRecommendations.length }}
+      </span>
+
+    </button>
+
+
+    <button
+      type="button"
+      [class.active]="
+        selectedFilter === 'TRAINING'
+      "
+      (click)="selectFilter('TRAINING')"
+    >
+      Training
+
+      <span>
+        {{ trainingRecommendations.length }}
+      </span>
+
+    </button>
+
+  </section>
+
+
+  <!-- =====================================
+       JOB RECOMMENDATIONS
+       ===================================== -->
+
+  @if (showJobs()) {
+
+    <section class="recommendation-section">
+
+      <div class="section-header">
+
+        <div>
+
+          <p class="section-label">
+            JOB RECOMMENDATIONS
+          </p>
+
+          <h3>
+            Best opportunities for your profile
+          </h3>
+
+        </div>
+
+
+        <a
+          routerLink="/candidate/jobs"
+          class="view-all"
+        >
+          View all jobs
+        </a>
+
+      </div>
+
+
+      <div class="jobs-grid">
+
+        @for (
+          recommendation of jobRecommendations;
+          track recommendation.id
+        ) {
+
+          <article class="job-card">
+
+
+            <!-- =================================
+                 TOP
+                 ================================= -->
+
+            <div class="job-top">
+
+              <div class="company-area">
+
+                <div class="company-logo">
+                  {{ recommendation.companyInitial }}
+                </div>
+
+
+                <div>
+
+                  <span>
+                    {{ recommendation.companyName }}
+                  </span>
+
+                  <small>
+                    {{ recommendation.location }}
+                    ·
+                    {{
+                      workModeLabel(
+                        recommendation.workMode
+                      )
+                    }}
+                  </small>
+
+                </div>
+
+              </div>
+
+
+              <div
+                class="match-ring"
+                [style.--score]="
+                  recommendation
+                    .matchingResult
+                    .finalScore + '%'
+                "
+              >
+
+                <div>
+
+                  <strong>
+                    {{
+                      recommendation
+                        .matchingResult
+                        .finalScore
+                    }}
+                  </strong>
+
+                  <span>
+                    MATCH
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================
+                 TITLE
+                 ================================= -->
+
+            <div class="job-title">
+
+              <span>
+                RECOMMENDED
+              </span>
+
+              <h4>
+                {{ recommendation.title }}
+              </h4>
+
+            </div>
+
+
+            <!-- =================================
+                 REASON
+                 ================================= -->
+
+            <div class="reason-box">
+
+              <div class="reason-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path d="M9 18h6"></path>
+
+                  <path d="M10 22h4"></path>
+
+                  <path d="M8.5 14.5A6 6 0 1 1 15.5 14.5C14.6 15.2 14 16 14 17h-4c0-1-.6-1.8-1.5-2.5Z"></path>
+                </svg>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Why this job?
+                </span>
+
+                <p>
+                  {{ recommendation.reason }}
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================
+                 MATCHED SKILLS
+                 ================================= -->
+
+            <div class="skills-section">
+
+              <p>
+                Matched skills
+              </p>
+
+
+              <div class="skill-list">
+
+                @for (
+                  skill of recommendation.matchedSkills;
+                  track skill
+                ) {
+
+                  <span class="matched-skill">
+
+                    <i>
+                      ✓
+                    </i>
+
+                    {{ skill }}
+
+                  </span>
+
+                }
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================
+                 MISSING SKILLS
+                 ================================= -->
+
+            <div class="skills-section">
+
+              <p>
+                Skills to improve
+              </p>
+
+
+              <div class="skill-list">
+
+                @if (
+                  recommendation
+                    .matchingResult
+                    .missingSkills
+                    .length > 0
+                ) {
+
+                  @for (
+                    skill of recommendation
+                      .matchingResult
+                      .missingSkills;
+                    track skill
+                  ) {
+
+                    <span class="missing-skill">
+
+                      <i>
+                        !
+                      </i>
+
+                      {{ skill }}
+
+                    </span>
+
+                  }
+
+                } @else {
+
+                  <span class="matched-skill">
+
+                    <i>
+                      ✓
+                    </i>
+
+                    No important skill gaps
+
+                  </span>
+
+                }
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================
+                 ACTION
+                 ================================= -->
+
+            <div class="job-footer">
+
+              <a
+                [routerLink]="[
+                  '/candidate/jobs',
+                  recommendation.jobId
+                ]"
+                class="details-button"
+              >
+                View job details
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M5 12h14"></path>
+
+                  <path d="m14 7 5 5-5 5"></path>
+                </svg>
+
+              </a>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+    </section>
+
+  }
+
+
+  <!-- =====================================
+       TRAINING RECOMMENDATIONS
+       ===================================== -->
+
+  @if (showTraining()) {
+
+    <section class="recommendation-section training-section">
+
+      <div class="section-header">
+
+        <div>
+
+          <p class="section-label">
+            SKILL DEVELOPMENT
+          </p>
+
+          <h3>
+            Training to improve your opportunities
+          </h3>
+
+        </div>
+
+      </div>
+
+
+      <div class="training-grid">
+
+        @for (
+          recommendation of trainingRecommendations;
+          track recommendation.id
+        ) {
+
+          <article class="training-card">
+
+
+            <!-- =================================
+                 TOP
+                 ================================= -->
+
+            <div class="training-top">
+
+              <div class="training-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path d="m2 10 10-5 10 5-10 5Z"></path>
+
+                  <path d="M6 12v5c3 2 9 2 12 0v-5"></path>
+                </svg>
+
+              </div>
+
+
+              <div class="relevance">
+
+                <strong>
+                  {{ recommendation.relevanceScore }}%
+                </strong>
+
+                <span>
+                  RELEVANCE
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================
+                 HEADING
+                 ================================= -->
+
+            <div class="training-heading">
+
+              <span>
+                {{ recommendation.targetSkill }}
+              </span>
+
+              <h4>
+                {{ recommendation.training.title }}
+              </h4>
+
+              <p>
+                {{ recommendation.training.provider }}
+              </p>
+
+            </div>
+
+
+            <!-- =================================
+                 TRAINING META
+                 ================================= -->
+
+            <div class="training-meta">
+
+              <!-- DURATION -->
+
+              <span>
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                  ></circle>
+
+                  <path d="M12 7v5l3 2"></path>
+                </svg>
+
+                {{
+                  recommendation.training.durationHours
+                }}
+                hours
+
+              </span>
+
+
+              <!-- LEVEL -->
+
+              <span>
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path d="M4 19V9"></path>
+                  <path d="M10 19V5"></path>
+                  <path d="M16 19V2"></path>
+                  <path d="M22 19H2"></path>
+                </svg>
+
+                {{
+                  trainingLevelLabel(
+                    recommendation.training.level
+                  )
+                }}
+
+              </span>
+
+
+              <!-- FREE / PAID -->
+
+              <span>
+
+                @if (
+                  recommendation.training.isFree
+                ) {
+                  Free
+                } @else {
+                  Paid
+                }
+
+              </span>
+
+            </div>
+
+
+            <!-- =================================
+                 REASON
+                 ================================= -->
+
+            <div class="training-reason">
+
+              <span>
+                AI recommendation
+              </span>
+
+              <p>
+                {{ recommendation.reason }}
+              </p>
+
+            </div>
+
+
+            <!-- =================================
+                 ACTION
+                 ================================= -->
+
+            @if (
+              recommendation.training.url &&
+              recommendation.training.status === 'ACTIVE'
+            ) {
+
+              <a
+                class="training-button"
+                [href]="recommendation.training.url"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View training
+              </a>
+
+            } @else {
+
+              <button
+                class="training-button"
+                type="button"
+                disabled
+              >
+                Training unavailable
+              </button>
+
+            }
+
+          </article>
+
+        }
+
+      </div>
+
+    </section>
+
+  }
+
+</div>

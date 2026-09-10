@@ -1,0 +1,1029 @@
+<div class="profile-page">
+
+  <!-- =========================================
+       PAGE HEADER
+       ========================================= -->
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        Candidate profile
+      </p>
+
+      <h2>
+        Build a profile that stands out.
+      </h2>
+
+      <p class="header-description">
+        Keep your information updated to improve matching,
+        recommendations and recruiter visibility.
+      </p>
+
+    </div>
+
+
+    <button
+      class="save-button"
+      type="submit"
+      form="profile-form"
+      [disabled]="isSaving"
+    >
+
+      @if (isSaving) {
+
+        <span class="spinner"></span>
+        Saving...
+
+      } @else {
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"></path>
+          <path d="M17 21v-8H7v8"></path>
+          <path d="M7 3v5h8"></path>
+        </svg>
+
+        Save changes
+
+      }
+
+    </button>
+
+  </section>
+
+
+  @if (profileSaved) {
+
+    <div class="success-message">
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <div>
+        <strong>Profile updated</strong>
+
+        <span>
+          Your changes are saved locally for now.
+        </span>
+      </div>
+
+    </div>
+
+  }
+
+
+  @if (saveError) {
+
+    <div class="success-message error-message">
+
+      <div class="success-icon">
+        !
+      </div>
+
+      <div>
+        <strong>Could not save changes</strong>
+
+        <span>
+          {{ saveError }}
+        </span>
+      </div>
+
+    </div>
+
+  }
+
+
+  <!-- =========================================
+       PROFILE HERO
+       ========================================= -->
+
+  <section class="profile-hero">
+
+    <div class="profile-person">
+
+      <div class="profile-avatar">
+        JD
+
+        <button
+          type="button"
+          aria-label="Change profile photo"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M14.5 4h-5L8 6H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3Z"></path>
+            <circle cx="12" cy="13" r="3"></circle>
+          </svg>
+        </button>
+
+      </div>
+
+
+      <div class="profile-identity">
+
+        <div class="candidate-badge">
+          Candidate
+        </div>
+
+        <h3>
+          Jamie Diaz
+        </h3>
+
+        <p>
+          Software Engineering Candidate
+        </p>
+
+
+        <div class="profile-location">
+
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="2"></circle>
+            </svg>
+
+            Casablanca, Morocco
+          </span>
+
+
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+              <path d="m3 7 9 6 9-6"></path>
+            </svg>
+
+            jamie.diaz@example.com
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- COMPLETION -->
+
+    <div class="completion-card">
+
+      <div class="completion-top">
+
+        <div>
+
+          <span>
+            PROFILE COMPLETION
+          </span>
+
+          <strong>
+            {{ profileCompletion }}%
+          </strong>
+
+        </div>
+
+
+        <div
+          class="completion-ring"
+          [style.--completion]="profileCompletion + '%'"
+        >
+
+          <div>
+            {{ profileCompletion }}%
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="progress-track">
+
+        <div
+          class="progress-value"
+          [style.width.%]="profileCompletion"
+        ></div>
+
+      </div>
+
+
+      <p>
+        Add your complete professional information to improve
+        your SmartRecruit matching results.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       MAIN CONTENT
+       ========================================= -->
+
+  <div class="profile-layout">
+
+
+    <!-- LEFT -->
+
+    <div class="main-column">
+
+
+      <!-- PERSONAL INFORMATION -->
+
+      <section class="panel">
+
+        <div class="panel-header">
+
+          <div class="panel-icon">
+
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 21a8 8 0 0 1 16 0"></path>
+            </svg>
+
+          </div>
+
+
+          <div>
+
+            <p class="panel-label">
+              PROFILE
+            </p>
+
+            <h3>
+              Personal information
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <form
+          id="profile-form"
+          [formGroup]="profileForm"
+          (ngSubmit)="onSubmit()"
+          novalidate
+        >
+
+          <div class="form-grid">
+
+
+            <!-- FIRST NAME -->
+
+            <div class="form-group">
+
+              <label for="firstName">
+                First name
+              </label>
+
+              <input
+                id="firstName"
+                type="text"
+                formControlName="firstName"
+                [class.invalid]="
+                  firstName.invalid &&
+                  firstName.touched
+                "
+              >
+
+              @if (
+                firstName.touched &&
+                firstName.hasError('required')
+              ) {
+
+                <small class="field-error">
+                  First name is required.
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- LAST NAME -->
+
+            <div class="form-group">
+
+              <label for="lastName">
+                Last name
+              </label>
+
+              <input
+                id="lastName"
+                type="text"
+                formControlName="lastName"
+                [class.invalid]="
+                  lastName.invalid &&
+                  lastName.touched
+                "
+              >
+
+              @if (
+                lastName.touched &&
+                lastName.hasError('required')
+              ) {
+
+                <small class="field-error">
+                  Last name is required.
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+              <label for="email">
+                Email address
+              </label>
+
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                [class.invalid]="
+                  email.invalid &&
+                  email.touched
+                "
+              >
+
+              @if (
+                email.touched &&
+                email.hasError('email')
+              ) {
+
+                <small class="field-error">
+                  Enter a valid email address.
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+              <label for="phone">
+                Phone
+              </label>
+
+              <input
+                id="phone"
+                type="tel"
+                formControlName="phone"
+                [class.invalid]="
+                  phone.invalid &&
+                  phone.touched
+                "
+              >
+
+              @if (
+                phone.touched &&
+                phone.hasError('pattern')
+              ) {
+
+                <small class="field-error">
+                  Enter a valid phone number.
+                </small>
+
+              }
+
+            </div>
+
+
+            <!-- CITY -->
+
+            <div class="form-group">
+
+              <label for="city">
+                City
+              </label>
+
+              <input
+                id="city"
+                type="text"
+                formControlName="city"
+                placeholder="Your city"
+              >
+
+            </div>
+
+
+            <!-- COUNTRY -->
+
+            <div class="form-group">
+
+              <label for="country">
+                Country
+              </label>
+
+              <input
+                id="country"
+                type="text"
+                formControlName="country"
+                placeholder="Your country"
+              >
+
+            </div>
+
+
+            <!-- EDUCATION -->
+
+            <div class="form-group full-width">
+
+              <label for="highestEducationLevel">
+                Highest education level
+              </label>
+
+              <select
+                id="highestEducationLevel"
+                formControlName="highestEducationLevel"
+              >
+
+                <option value="NONE">
+                  None
+                </option>
+
+                <option value="BAC">
+                  BAC
+                </option>
+
+                <option value="BAC_2">
+                  BAC +2
+                </option>
+
+                <option value="BAC_3">
+                  BAC +3
+                </option>
+
+                <option value="MASTER">
+                  Master
+                </option>
+
+                <option value="ENGINEERING">
+                  Engineering
+                </option>
+
+                <option value="PHD">
+                  PhD
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <!-- BIO -->
+
+            <div class="form-group full-width">
+
+              <div class="label-row">
+
+                <label for="bio">
+                  About you
+                </label>
+
+                <span>
+                  Professional summary
+                </span>
+
+              </div>
+
+              <textarea
+                id="bio"
+                formControlName="bio"
+                rows="5"
+                placeholder="Tell recruiters about yourself..."
+              ></textarea>
+
+            </div>
+
+          </div>
+
+
+          <!-- SOCIAL LINKS -->
+
+          <div class="form-section-divider">
+
+            <span>
+              Professional links
+            </span>
+
+          </div>
+
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="linkedinUrl">
+                LinkedIn
+              </label>
+
+              <input
+                id="linkedinUrl"
+                type="url"
+                formControlName="linkedinUrl"
+                placeholder="https://linkedin.com/in/..."
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="githubUrl">
+                GitHub
+              </label>
+
+              <input
+                id="githubUrl"
+                type="url"
+                formControlName="githubUrl"
+                placeholder="https://github.com/..."
+              >
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label for="portfolioUrl">
+                Portfolio
+              </label>
+
+              <input
+                id="portfolioUrl"
+                type="url"
+                formControlName="portfolioUrl"
+                placeholder="https://yourportfolio.com"
+              >
+
+            </div>
+
+          </div>
+
+        </form>
+
+      </section>
+
+
+      <!-- EXPERIENCE -->
+
+      <section class="panel">
+
+        <div class="panel-header section-header">
+
+          <div class="header-left">
+
+            <div class="panel-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <rect
+                  x="3"
+                  y="7"
+                  width="18"
+                  height="13"
+                  rx="2"
+                ></rect>
+
+                <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <path d="M3 12h18"></path>
+              </svg>
+
+            </div>
+
+            <div>
+
+              <p class="panel-label">
+                CAREER
+              </p>
+
+              <h3>
+                Experience
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="add-button"
+            type="button"
+          >
+            + Add experience
+          </button>
+
+        </div>
+
+
+        <div class="timeline">
+
+          @for (
+            experience of experiences;
+            track experience.id
+          ) {
+
+            <article class="timeline-item">
+
+              <div class="timeline-marker">
+                <span></span>
+              </div>
+
+
+              <div class="timeline-content">
+
+                <div class="timeline-heading">
+
+                  <div>
+
+                    <h4>
+                      {{ experience.jobTitle }}
+                    </h4>
+
+                    <p>
+                      {{ experience.companyName }}
+                    </p>
+
+                  </div>
+
+
+                  <span class="source-badge">
+                    {{ experience.source }}
+                  </span>
+
+                </div>
+
+
+                <div class="timeline-meta">
+
+                  <span>
+                    {{ experience.startDate }}
+                    —
+                    {{ experience.endDate }}
+                  </span>
+
+                  <i></i>
+
+                  <span>
+                    {{ experience.duration }}
+                  </span>
+
+                </div>
+
+
+                <p class="timeline-description">
+                  {{ experience.description }}
+                </p>
+
+
+                <button
+                  class="edit-link"
+                  type="button"
+                >
+                  Edit experience
+                </button>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      </section>
+
+
+      <!-- EDUCATION -->
+
+      <section class="panel">
+
+        <div class="panel-header section-header">
+
+          <div class="header-left">
+
+            <div class="panel-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path d="m2 10 10-5 10 5-10 5Z"></path>
+                <path d="M6 12v5c3 2 9 2 12 0v-5"></path>
+              </svg>
+
+            </div>
+
+            <div>
+
+              <p class="panel-label">
+                EDUCATION
+              </p>
+
+              <h3>
+                Academic background
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="add-button"
+            type="button"
+          >
+            + Add education
+          </button>
+
+        </div>
+
+
+        <div class="education-list">
+
+          @for (
+            education of educations;
+            track education.id
+          ) {
+
+            <article class="education-card">
+
+              <div class="education-logo">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path d="m2 10 10-5 10 5-10 5Z"></path>
+                  <path d="M6 12v5c3 2 9 2 12 0v-5"></path>
+                </svg>
+
+              </div>
+
+
+              <div class="education-info">
+
+                <div>
+
+                  <h4>
+                    {{ education.degree }}
+                  </h4>
+
+                  <p>
+                    {{ education.institution }}
+                  </p>
+
+                </div>
+
+
+                <div class="education-meta">
+
+                  <span>
+                    {{ education.field }}
+                  </span>
+
+                  <i></i>
+
+                  <span>
+                    {{ education.period }}
+                  </span>
+
+                  <i></i>
+
+                  <span>
+                    {{ education.level }}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <span class="source-badge">
+                {{ education.source }}
+              </span>
+
+            </article>
+
+          }
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <!-- =========================================
+         RIGHT COLUMN
+         ========================================= -->
+
+    <aside class="side-column">
+
+
+      <!-- SKILLS -->
+
+      <section class="panel skills-panel">
+
+        <div class="panel-header section-header">
+
+          <div class="header-left">
+
+            <div class="panel-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path d="M12 2 15 8l7 .8-5 4.7 1.5 6.8L12 17l-6.5 3.3L7 13.5 2 8.8 9 8Z"></path>
+              </svg>
+
+            </div>
+
+            <div>
+
+              <p class="panel-label">
+                EXPERTISE
+              </p>
+
+              <h3>
+                Skills
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="small-add-button"
+            type="button"
+            aria-label="Add skill"
+          >
+            +
+          </button>
+
+        </div>
+
+
+        <div class="skills-list">
+
+          @for (
+            skill of skills;
+            track skill.id
+          ) {
+
+            <div class="skill-card">
+
+              <div class="skill-top">
+
+                <strong>
+                  {{ skill.name }}
+                </strong>
+
+                <span
+                  class="skill-level"
+                  [class.advanced]="
+                    skill.level === 'ADVANCED'
+                  "
+                  [class.intermediate]="
+                    skill.level === 'INTERMEDIATE'
+                  "
+                >
+                  {{ skill.level }}
+                </span>
+
+              </div>
+
+
+              <div class="skill-bottom">
+
+                <span>
+                  {{ skill.category }}
+                </span>
+
+                <span class="skill-source">
+                  {{ skill.source }}
+                </span>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <button
+          class="manage-skills-button"
+          type="button"
+        >
+          Manage all skills
+        </button>
+
+      </section>
+
+
+      <!-- MATCHING INFO -->
+
+      <section class="matching-card">
+
+        <div class="matching-icon">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M12 3v18"></path>
+            <path d="m18 9-6-6-6 6"></path>
+            <path d="m18 15-6 6-6-6"></path>
+          </svg>
+
+        </div>
+
+        <span>
+          SMART MATCHING
+        </span>
+
+        <h3>
+          Your profile powers your matches.
+        </h3>
+
+        <p>
+          SmartRecruit compares your skills, experience and
+          education with job requirements to calculate compatibility.
+        </p>
+
+
+        <div class="matching-weights">
+
+          <div>
+            <strong>50%</strong>
+            <span>Skills</span>
+          </div>
+
+          <div>
+            <strong>30%</strong>
+            <span>Experience</span>
+          </div>
+
+          <div>
+            <strong>20%</strong>
+            <span>Education</span>
+          </div>
+
+        </div>
+
+      </section>
+
+    </aside>
+
+  </div>
+
+</div>

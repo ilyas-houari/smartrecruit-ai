@@ -1,0 +1,301 @@
+<div class="candidates-page">
+
+  <!-- =====================================
+       HEADER
+       ===================================== -->
+
+  <section class="header">
+
+    <div>
+
+      <p class="eyebrow">
+        RECRUITER WORKSPACE
+      </p>
+
+      <h2>
+        Candidates
+      </h2>
+
+      <p>
+        Discover candidates, review their profiles
+        and compare their matching results.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       SEARCH
+       ===================================== -->
+
+  <section class="search-box">
+
+    <input
+      type="text"
+      placeholder="Search by candidate, job, location or skill..."
+      [(ngModel)]="searchTerm"
+    />
+
+    <div class="result-count">
+
+      <strong>
+        {{ filteredCandidates.length }}
+      </strong>
+
+      <span>
+        candidates
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       CANDIDATE LIST
+       ===================================== -->
+
+  <section class="candidate-list">
+
+    @for (
+      candidate of filteredCandidates;
+      track candidate.id
+    ) {
+
+      <article class="candidate-card">
+
+
+        <!-- =================================
+             AVATAR
+             ================================= -->
+
+        <div class="avatar">
+
+          {{
+            candidate.firstName.charAt(0)
+          }}
+
+          {{
+            candidate.lastName.charAt(0)
+          }}
+
+        </div>
+
+
+        <!-- =================================
+             CANDIDATE INFORMATION
+             ================================= -->
+
+        <div class="info">
+
+          <div class="candidate-heading">
+
+            <div>
+
+              <h3>
+                {{ candidate.firstName }}
+                {{ candidate.lastName }}
+              </h3>
+
+              <h4>
+                {{
+                  candidate
+                    .matchingResult
+                    .jobTitle
+                }}
+              </h4>
+
+            </div>
+
+
+            <span
+              class="cv-status"
+              [class.validated]="
+                candidate.cvStatus === 'VALIDATED'
+              "
+              [class.analyzed]="
+                candidate.cvStatus === 'ANALYZED'
+              "
+              [class.processing]="
+                candidate.cvStatus === 'PROCESSING'
+              "
+              [class.failed]="
+                candidate.cvStatus === 'FAILED'
+              "
+            >
+              {{
+                cvStatusLabel(
+                  candidate.cvStatus
+                )
+              }}
+            </span>
+
+          </div>
+
+
+          <!-- LOCATION -->
+
+          <div class="candidate-meta">
+
+            <span>
+              📍
+              {{ candidate.city }},
+              {{ candidate.country }}
+            </span>
+
+
+            <span>
+              Experience:
+              {{ candidate.totalExperienceMonths }}
+              months
+            </span>
+
+
+            <span>
+              Education:
+              {{
+                educationLevelLabel(
+                  candidate.highestEducationLevel
+                )
+              }}
+            </span>
+
+          </div>
+
+
+          <!-- SKILLS -->
+
+          <div class="skills">
+
+            @for (
+              skill of candidate.skills;
+              track skill
+            ) {
+
+              <span>
+                {{ skill }}
+              </span>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             MATCHING
+             ================================= -->
+
+        <div class="match">
+
+          <strong>
+            {{
+              candidate
+                .matchingResult
+                .finalScore
+            }}%
+          </strong>
+
+          <small>
+            AI Match
+          </small>
+
+
+          <div class="missing-count">
+
+            <span>
+              {{
+                candidate
+                  .matchingResult
+                  .missingSkillsCount
+              }}
+            </span>
+
+            skill gap
+
+            @if (
+              candidate
+                .matchingResult
+                .missingSkillsCount !== 1
+            ) {
+              s
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             APPLICATION
+             ================================= -->
+
+        <div class="application-info">
+
+          <span>
+            APPLICATION
+          </span>
+
+          <strong>
+            #
+            {{
+              candidate
+                .matchingResult
+                .applicationId
+            }}
+          </strong>
+
+        </div>
+
+
+        <!-- =================================
+             PROFILE ACTION
+             ================================= -->
+
+        <a
+          class="profile-button"
+          [routerLink]="[
+            '/recruiter/candidates',
+            candidate.id
+          ]"
+        >
+          View Profile
+
+          <span>
+            →
+          </span>
+
+        </a>
+
+      </article>
+
+    } @empty {
+
+      <!-- =================================
+           EMPTY SEARCH
+           ================================= -->
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ?
+        </div>
+
+        <h3>
+          No candidates found
+        </h3>
+
+        <p>
+          Try another name, job title, location or skill.
+        </p>
+
+      </div>
+
+    }
+
+  </section>
+
+</div>

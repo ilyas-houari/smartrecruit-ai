@@ -1,0 +1,738 @@
+.job-details-page {
+
+  padding: 10px 0 40px;
+
+}
+
+
+
+/* ==============================
+   HEADER
+================================ */
+
+
+.header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 24px;
+
+  padding: 30px;
+
+  margin-bottom: 22px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5eaf2;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 8px 24px rgba(16,35,63,0.04);
+
+}
+
+
+
+.job-heading {
+
+  min-width: 0;
+
+}
+
+
+
+.back-button {
+
+  margin-bottom: 15px;
+
+  padding: 8px 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #74839a;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+}
+
+
+
+.back-button:hover {
+
+  color: #18b890;
+
+}
+
+
+
+.eyebrow {
+
+  margin: 0 0 8px;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
+
+  color: #8190a8;
+
+}
+
+
+
+.title-row {
+
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 14px;
+
+}
+
+
+
+.title-row h1 {
+
+  margin: 0;
+
+  color: #10233f;
+
+  font-size: 32px;
+
+  font-weight: 800;
+
+}
+
+
+
+.location {
+
+  margin: 12px 0 0;
+
+  color: #75849a;
+
+  font-size: 14px;
+
+}
+
+
+
+.job-meta {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 9px;
+
+  margin-top: 16px;
+
+}
+
+
+
+.job-meta span {
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  background: #f1f5f9;
+
+  color: #53647b;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+}
+
+
+
+
+
+/* ==============================
+   STATUS
+================================ */
+
+
+.status-badge {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+}
+
+
+
+.status-badge.published {
+
+  background:#e8faf5;
+
+  color:#159874;
+
+}
+
+
+
+.status-badge.closed {
+
+  background:#fff3e8;
+
+  color:#c77527;
+
+}
+
+
+
+.status-badge.archived {
+
+  background:#eef1f5;
+
+  color:#66778e;
+
+}
+
+
+
+.status-badge.draft {
+
+  background:#eef4ff;
+
+  color:#315fc7;
+
+}
+
+
+
+
+
+
+/* ==============================
+   ACTIONS
+================================ */
+
+
+.header-actions {
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+}
+
+
+
+.header-actions button {
+
+  padding:12px 17px;
+
+  border:none;
+
+  border-radius:11px;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:
+    transform .2s ease,
+    opacity .2s ease;
+
+}
+
+
+
+.header-actions button:hover {
+
+  transform:translateY(-1px);
+
+  opacity:.9;
+
+}
+
+
+
+.edit-button {
+
+  background:#eef4ff;
+
+  color:#315fc7;
+
+}
+
+
+
+.close-button {
+
+  background:#fff1ed;
+
+  color:#d36243;
+
+}
+
+
+
+.archive-button {
+
+  background:#10233f;
+
+  color:white;
+
+}
+
+
+
+
+
+
+/* ==============================
+   SUCCESS MESSAGE
+================================ */
+
+
+.success-message {
+
+  margin-bottom:22px;
+
+  padding:14px 17px;
+
+  border:1px solid #c9f1e5;
+
+  border-radius:12px;
+
+  background:#e8faf5;
+
+  color:#159874;
+
+  font-weight:700;
+
+}
+
+
+
+
+
+
+/* ==============================
+   CONTENT
+================================ */
+
+
+.content {
+
+  display:grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    300px;
+
+  gap:24px;
+
+}
+
+
+
+.main {
+
+  min-width:0;
+
+}
+
+
+
+
+
+.card {
+
+  padding:28px;
+
+  margin-bottom:22px;
+
+  background:white;
+
+  border:1px solid #e5eaf2;
+
+  border-radius:20px;
+
+  box-shadow:
+    0 8px 24px rgba(16,35,63,.03);
+
+}
+
+
+
+.card h2 {
+
+  margin:0 0 18px;
+
+  color:#10233f;
+
+  font-size:20px;
+
+}
+
+
+
+.card p {
+
+  margin:0;
+
+  color:#71809a;
+
+  line-height:1.7;
+
+}
+
+
+
+
+
+/* ==============================
+   SKILLS
+================================ */
+
+
+.skills {
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:9px;
+
+}
+
+
+
+.skills span {
+
+  padding:8px 13px;
+
+  border-radius:999px;
+
+  background:#e8faf5;
+
+  color:#159874;
+
+  font-size:12px;
+
+  font-weight:700;
+
+}
+
+
+
+
+
+
+/* ==============================
+   INFORMATION
+================================ */
+
+
+.info-grid {
+
+  display:grid;
+
+  grid-template-columns:repeat(2,1fr);
+
+  gap:16px;
+
+}
+
+
+
+.info-grid > div {
+
+  padding:16px;
+
+  border:1px solid #e8edf4;
+
+  border-radius:14px;
+
+  background:#f9fbfd;
+
+}
+
+
+
+.info-label {
+
+  display:block;
+
+  margin-bottom:8px;
+
+  color:#8390a4;
+
+  font-size:11px;
+
+  font-weight:700;
+
+  text-transform:uppercase;
+
+  letter-spacing:.6px;
+
+}
+
+
+
+.info-grid strong {
+
+  color:#10233f;
+
+  font-size:14px;
+
+}
+
+
+
+
+
+/* ==============================
+   SALARY
+================================ */
+
+
+.salary {
+
+  color:#18b890 !important;
+
+  font-size:28px;
+
+  font-weight:800;
+
+}
+
+
+
+
+
+
+/* ==============================
+   SIDE PANEL
+================================ */
+
+
+.side {
+
+  height:max-content;
+
+  padding:28px;
+
+  background:#10233f;
+
+  border-radius:20px;
+
+  color:white;
+
+  text-align:center;
+
+}
+
+
+
+.side-label {
+
+  margin:0 0 14px;
+
+  color:#9eabc0;
+
+  font-size:11px;
+
+  font-weight:800;
+
+  letter-spacing:1.2px;
+
+}
+
+
+
+.application-count {
+
+  display:block;
+
+  font-size:42px;
+
+  color:white;
+
+}
+
+
+
+.side > p:not(.side-label) {
+
+  margin:5px 0 22px;
+
+  color:#b7c2d2;
+
+}
+
+
+
+.applications-button {
+
+  width:100%;
+
+  padding:13px 16px;
+
+  border:none;
+
+  border-radius:11px;
+
+  background:#18b890;
+
+  color:white;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+}
+
+
+
+.applications-button:hover {
+
+  opacity:.9;
+
+}
+
+
+
+
+
+
+
+/* ==============================
+   RESPONSIVE
+================================ */
+
+
+@media(max-width:950px){
+
+
+  .content {
+
+    grid-template-columns:1fr;
+
+  }
+
+
+}
+
+
+
+@media(max-width:750px){
+
+
+  .header {
+
+    flex-direction:column;
+
+    padding:22px;
+
+  }
+
+
+  .header-actions {
+
+    width:100%;
+
+    flex-direction:column;
+
+  }
+
+
+  .header-actions button {
+
+    width:100%;
+
+  }
+
+
+  .info-grid {
+
+    grid-template-columns:1fr;
+
+  }
+
+
+}
+
+
+
+
+@media(max-width:520px){
+
+
+  .job-details-page {
+
+    padding:5px 0 30px;
+
+  }
+
+
+
+  .header,
+  .card,
+  .side {
+
+    padding:20px;
+
+  }
+
+
+
+  .title-row {
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+  }
+
+
+
+  .title-row h1 {
+
+    font-size:24px;
+
+  }
+
+
+
+  .application-count {
+
+    font-size:36px;
+
+  }
+
+
+}

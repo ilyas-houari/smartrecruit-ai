@@ -1,0 +1,844 @@
+<div class="applications-page">
+
+  <!-- =====================================
+       HEADER
+       ===================================== -->
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        Application tracking
+      </p>
+
+      <h2>
+        Track your opportunities.
+      </h2>
+
+      <p class="page-description">
+        Follow your applications from submission
+        through recruiter review and final decision.
+      </p>
+
+    </div>
+
+
+    <a
+      routerLink="/candidate/jobs"
+      class="browse-button"
+    >
+
+      Browse jobs
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M5 12h14"></path>
+        <path d="m14 7 5 5-5 5"></path>
+      </svg>
+
+    </a>
+
+  </section>
+
+
+  @if (withdrawError) {
+
+    <div class="withdraw-error-banner">
+      {{ withdrawError }}
+    </div>
+
+  }
+
+
+  <!-- =====================================
+       STATS
+       ===================================== -->
+
+  <section class="stats-grid">
+
+
+    <!-- TOTAL -->
+
+    <article class="stat-card">
+
+      <div class="stat-icon">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path d="M9 11l3 3L22 4"></path>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Total applications
+        </span>
+
+        <strong>
+          {{ totalApplications }}
+        </strong>
+
+        <small>
+          All submitted opportunities
+        </small>
+
+      </div>
+
+    </article>
+
+
+    <!-- ACTIVE -->
+
+    <article class="stat-card">
+
+      <div class="stat-icon active">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="9"
+          ></circle>
+
+          <path d="M12 7v5l3 2"></path>
+        </svg>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Active processes
+        </span>
+
+        <strong>
+          {{ activeApplications }}
+        </strong>
+
+        <small>
+          Still in recruitment
+        </small>
+
+      </div>
+
+    </article>
+
+
+    <!-- SHORTLISTED -->
+
+    <article class="stat-card">
+
+      <div class="stat-icon shortlisted">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path d="m12 2 3 6 7 .8-5 4.7 1.5 6.8L12 17l-6.5 3.3L7 13.5 2 8.8 9 8Z"></path>
+        </svg>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Shortlisted
+        </span>
+
+        <strong>
+          {{ shortlistedApplications }}
+        </strong>
+
+        <small>
+          Advanced applications
+        </small>
+
+      </div>
+
+    </article>
+
+
+    <!-- ACCEPTED -->
+
+    <article class="stat-card">
+
+      <div class="stat-icon accepted">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="9"
+          ></circle>
+
+          <path d="m8 12 3 3 5-6"></path>
+        </svg>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          Accepted
+        </span>
+
+        <strong>
+          {{ acceptedApplications }}
+        </strong>
+
+        <small>
+          Successful applications
+        </small>
+
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- =====================================
+       FILTERS
+       ===================================== -->
+
+  <section class="filter-panel">
+
+    <div class="search-box">
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <circle
+          cx="11"
+          cy="11"
+          r="7"
+        ></circle>
+
+        <path d="m20 20-4-4"></path>
+      </svg>
+
+
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search applications..."
+        aria-label="Search applications"
+      >
+
+    </div>
+
+
+    <div class="status-filter">
+
+      <label for="status">
+        Status
+      </label>
+
+
+      <select
+        id="status"
+        [(ngModel)]="selectedStatus"
+      >
+
+        <option value="ALL">
+          All statuses
+        </option>
+
+        <option value="SUBMITTED">
+          Submitted
+        </option>
+
+        <option value="UNDER_REVIEW">
+          Under review
+        </option>
+
+        <option value="SHORTLISTED">
+          Shortlisted
+        </option>
+
+        <option value="ACCEPTED">
+          Accepted
+        </option>
+
+        <option value="REJECTED">
+          Rejected
+        </option>
+
+        <option value="WITHDRAWN">
+          Withdrawn
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <button
+      class="clear-button"
+      type="button"
+      (click)="clearFilters()"
+    >
+      Clear
+    </button>
+
+  </section>
+
+
+  <!-- =====================================
+       RESULT HEADER
+       ===================================== -->
+
+  <div class="results-header">
+
+    <div>
+
+      <strong>
+        {{ filteredApplications.length }}
+        applications
+      </strong>
+
+      <span>
+        matching your current filters
+      </span>
+
+    </div>
+
+
+    <div class="status-guide">
+
+      <span></span>
+
+      Recruitment status updates appear here
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================
+       APPLICATION LIST
+       ===================================== -->
+
+  @if (filteredApplications.length > 0) {
+
+    <section class="applications-list">
+
+      @for (
+        application of filteredApplications;
+        track application.id
+      ) {
+
+        <article class="application-card">
+
+
+          <!-- =================================
+               LEFT / JOB INFO
+               ================================= -->
+
+          <div class="job-column">
+
+            <div class="company-logo">
+              {{ application.companyInitial }}
+            </div>
+
+
+            <div class="job-info">
+
+              <div class="job-heading">
+
+                <div>
+
+                  <h3>
+                    {{ application.jobTitle }}
+                  </h3>
+
+                  <p>
+                    {{ application.companyName }}
+                  </p>
+
+                </div>
+
+
+                <span
+                  class="status-badge"
+                  [class.submitted]="
+                    application.status ===
+                    'SUBMITTED'
+                  "
+                  [class.review]="
+                    application.status ===
+                    'UNDER_REVIEW'
+                  "
+                  [class.shortlisted]="
+                    application.status ===
+                    'SHORTLISTED'
+                  "
+                  [class.accepted]="
+                    application.status ===
+                    'ACCEPTED'
+                  "
+                  [class.rejected]="
+                    application.status ===
+                    'REJECTED'
+                  "
+                  [class.withdrawn]="
+                    application.status ===
+                    'WITHDRAWN'
+                  "
+                >
+
+                  <span class="status-dot"></span>
+
+                  {{
+                    getStatusLabel(
+                      application.status
+                    )
+                  }}
+
+                </span>
+
+              </div>
+
+
+              <div class="job-meta">
+
+                <span>
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                  >
+                    <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+                    <circle cx="12" cy="10" r="2"></circle>
+                  </svg>
+
+                  {{ application.location }}
+
+                </span>
+
+
+                <span>
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                  >
+                    <rect
+                      x="3"
+                      y="7"
+                      width="18"
+                      height="13"
+                      rx="2"
+                    ></rect>
+
+                    <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+
+                  {{ contractTypeLabel(application.contractType) }}
+
+                </span>
+
+
+                <span>
+                  {{ workModeLabel(application.workMode) }}
+                </span>
+
+              </div>
+
+
+              <div class="skills">
+
+                @for (
+                  skill of application.matchedSkills;
+                  track skill
+                ) {
+
+                  <span>
+                    {{ skill }}
+                  </span>
+
+                }
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================
+               MATCH
+               ================================= -->
+
+          <div class="match-column">
+
+            <div
+              class="match-ring"
+              [style.--score]="
+                application.matchingResult.finalScore + '%'
+              "
+            >
+
+              <div>
+
+                <strong>
+                  {{ application.matchingResult.finalScore }}
+                </strong>
+
+                <span>
+                  MATCH
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================
+               PROCESS
+               ================================= -->
+
+          <div class="process-column">
+
+            <div class="date-info">
+
+              <span>
+                Applied
+              </span>
+
+              <strong>
+                {{ application.appliedAt }}
+              </strong>
+
+            </div>
+
+
+            <div class="timeline">
+
+              <!-- SUBMITTED -->
+
+              <div
+                class="timeline-step"
+                [class.completed]="true"
+              >
+
+                <div class="timeline-node">
+                  ✓
+                </div>
+
+                <span>
+                  Submitted
+                </span>
+
+              </div>
+
+
+              <div
+                class="timeline-line"
+                [class.completed]="
+                  application.status ===
+                    'UNDER_REVIEW' ||
+                  application.status ===
+                    'SHORTLISTED' ||
+                  application.status ===
+                    'ACCEPTED'
+                "
+              ></div>
+
+
+              <!-- REVIEW -->
+
+              <div
+                class="timeline-step"
+                [class.completed]="
+                  application.status ===
+                    'UNDER_REVIEW' ||
+                  application.status ===
+                    'SHORTLISTED' ||
+                  application.status ===
+                    'ACCEPTED'
+                "
+              >
+
+                <div class="timeline-node">
+                  2
+                </div>
+
+                <span>
+                  Review
+                </span>
+
+              </div>
+
+
+              <div
+                class="timeline-line"
+                [class.completed]="
+                  application.status ===
+                    'SHORTLISTED' ||
+                  application.status ===
+                    'ACCEPTED'
+                "
+              ></div>
+
+
+              <!-- SHORTLIST -->
+
+              <div
+                class="timeline-step"
+                [class.completed]="
+                  application.status ===
+                    'SHORTLISTED' ||
+                  application.status ===
+                    'ACCEPTED'
+                "
+              >
+
+                <div class="timeline-node">
+                  3
+                </div>
+
+                <span>
+                  Shortlist
+                </span>
+
+              </div>
+
+
+              <div
+                class="timeline-line"
+                [class.completed]="
+                  application.status ===
+                  'ACCEPTED'
+                "
+              ></div>
+
+
+              <!-- FINAL STATUS -->
+
+              <div
+                class="timeline-step"
+                [class.completed]="
+                  application.status ===
+                  'ACCEPTED'
+                "
+                [class.failed]="
+                  application.status ===
+                  'REJECTED'
+                "
+                [class.withdrawn]="
+                  application.status ===
+                  'WITHDRAWN'
+                "
+              >
+
+                <div class="timeline-node">
+
+                  @if (
+                    application.status ===
+                    'ACCEPTED'
+                  ) {
+                    ✓
+                  } @else if (
+                    application.status ===
+                    'REJECTED'
+                  ) {
+                    ×
+                  } @else if (
+                    application.status ===
+                    'WITHDRAWN'
+                  ) {
+                    W
+                  } @else {
+                    4
+                  }
+
+                </div>
+
+                <span>
+
+                  @if (
+                    application.status ===
+                    'WITHDRAWN'
+                  ) {
+                    Withdrawn
+                  } @else {
+                    Decision
+                  }
+
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="updated-info">
+
+              Last update:
+
+              <strong>
+                {{ application.updatedAt }}
+              </strong>
+
+            </div>
+
+
+            @if (
+              application.status ===
+              'WITHDRAWN'
+            ) {
+
+              <div class="withdrawn-message">
+                This application was withdrawn.
+              </div>
+
+            }
+
+          </div>
+
+
+          <!-- =================================
+               ACTIONS
+               ================================= -->
+
+          <div class="action-column">
+
+            <a
+              [routerLink]="[
+                '/candidate/jobs',
+                application.jobOfferId
+              ]"
+              class="details-button"
+            >
+
+              View job
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14"></path>
+                <path d="m14 7 5 5-5 5"></path>
+              </svg>
+
+            </a>
+
+
+            @if (canWithdraw(application)) {
+
+              <button
+                type="button"
+                class="withdraw-button"
+                (click)="withdrawApplication(application.id)"
+              >
+                Withdraw application
+              </button>
+
+            }
+
+
+            @if (
+              application.status ===
+              'WITHDRAWN'
+            ) {
+
+              <span class="withdrawn-action">
+                Withdrawn
+              </span>
+
+            }
+
+          </div>
+
+        </article>
+
+      }
+
+    </section>
+
+  } @else {
+
+    <!-- =====================================
+         EMPTY
+         ===================================== -->
+
+    <section class="empty-state">
+
+      <div class="empty-icon">
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path d="M9 11l3 3L22 4"></path>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+
+      </div>
+
+
+      <h3>
+        No applications found
+      </h3>
+
+
+      <p>
+        Try changing the filters or browse
+        available job opportunities.
+      </p>
+
+
+      <button
+        type="button"
+        (click)="clearFilters()"
+      >
+        Clear filters
+      </button>
+
+    </section>
+
+  }
+
+</div>

@@ -1,0 +1,231 @@
+<div class="jobs-page">
+
+  <!-- =====================================
+       PAGE HEADER
+       ===================================== -->
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        RECRUITER WORKSPACE
+      </p>
+
+      <h1>
+        My Jobs
+      </h1>
+
+      <p class="subtitle">
+        Manage your job offers and review candidate applications.
+      </p>
+
+    </div>
+
+
+    <div class="header-actions">
+
+      <div class="jobs-count">
+
+        <strong>
+          {{ jobs.length }}
+        </strong>
+
+        <span>
+          Job Offers
+        </span>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="create-button"
+        (click)="createJob()"
+      >
+        Create Job
+        <span>+</span>
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================
+       JOB LIST
+       ===================================== -->
+
+  <section class="jobs-list">
+
+    @for (
+      job of jobs;
+      track job.id
+    ) {
+
+      <article class="job-card">
+
+
+        <!-- =================================
+             JOB INFO
+             ================================= -->
+
+        <div class="job-info">
+
+          <div class="job-avatar">
+            {{ job.title.charAt(0) }}
+          </div>
+
+
+          <div class="job-copy">
+
+            <h2>
+              {{ job.title }}
+            </h2>
+
+            <p class="location">
+              {{ job.location }}
+            </p>
+
+
+            <div class="job-tags">
+
+              <span>
+                {{ workModeLabel(job.workMode) }}
+              </span>
+
+              <span>
+                {{ contractTypeLabel(job.contractType) }}
+              </span>
+
+              <span>
+                Job #{{ job.id }}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================
+             APPLICATIONS
+             ================================= -->
+
+        <div class="applications">
+
+          <strong>
+            {{ job.applicants }}
+          </strong>
+
+          <p>
+            @if (job.applicants === 1) {
+              Applicant
+            } @else {
+              Applicants
+            }
+          </p>
+
+        </div>
+
+
+        <!-- =================================
+             STATUS
+             ================================= -->
+
+        <div class="status">
+
+          <span
+            [class.published]="
+              job.status === 'PUBLISHED'
+            "
+            [class.closed]="
+              job.status === 'CLOSED'
+            "
+            [class.archived]="
+              job.status === 'ARCHIVED'
+            "
+            [class.draft]="
+              job.status === 'DRAFT'
+            "
+          >
+            {{ statusLabel(job.status) }}
+          </span>
+
+        </div>
+
+
+        <!-- =================================
+             ACTIONS
+             ================================= -->
+
+        <div class="actions">
+
+          <button
+            type="button"
+            class="view"
+            (click)="viewJob(job.id)"
+          >
+            View
+          </button>
+
+
+          <button
+            type="button"
+            class="edit"
+            (click)="editJob(job.id)"
+          >
+            Edit
+          </button>
+
+
+          <button
+            type="button"
+            class="delete"
+            (click)="deleteJob(job.id)"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </article>
+
+    } @empty {
+
+      <!-- ===================================
+           EMPTY STATE
+           =================================== -->
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          J
+        </div>
+
+        <h2>
+          No job offers yet
+        </h2>
+
+        <p>
+          Create your first job offer to start receiving
+          candidate applications.
+        </p>
+
+        <button
+          type="button"
+          class="create-button"
+          (click)="createJob()"
+        >
+          Create Job
+          <span>+</span>
+        </button>
+
+      </div>
+
+    }
+
+  </section>
+
+</div>

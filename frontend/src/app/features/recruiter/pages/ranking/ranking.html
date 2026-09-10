@@ -1,0 +1,503 @@
+<div class="ranking-page">
+
+  <!-- HEADER -->
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        RECRUITER WORKSPACE
+      </p>
+
+      <h1>
+        Candidate Ranking
+      </h1>
+
+      <p class="subtitle">
+        Compare candidates using the SmartRecruit AI matching score.
+      </p>
+
+    </div>
+
+
+    <div class="ranking-count">
+
+      <strong>
+        {{ rankedCandidates.length }}
+      </strong>
+
+      <span>
+        Candidates
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <!-- MATCHING FORMULA -->
+
+  <section class="formula-banner">
+
+    <div>
+
+      <p class="formula-label">
+        SMARTRECRUIT AI MATCHING
+      </p>
+
+      <h2>
+        Ranking Formula
+      </h2>
+
+    </div>
+
+
+    <div class="formula-items">
+
+      <div>
+
+        <strong>
+          50%
+        </strong>
+
+        <span>
+          Skills
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          30%
+        </strong>
+
+        <span>
+          Experience
+        </span>
+
+      </div>
+
+
+      <div>
+
+        <strong>
+          20%
+        </strong>
+
+        <span>
+          Education
+        </span>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RANKING LIST -->
+
+  <section class="ranking-list">
+
+    @for (
+      candidate of rankedCandidates;
+      track candidate.candidateId;
+      let i = $index
+    ) {
+
+      <article
+        class="candidate-card"
+        [class.first-place]="i === 0"
+      >
+
+
+        <!-- RANK -->
+
+        <div class="rank">
+
+          <span>
+            #{{ i + 1 }}
+          </span>
+
+
+          @if (i === 0) {
+
+            <small>
+              TOP MATCH
+            </small>
+
+          }
+
+        </div>
+
+
+        <!-- CANDIDATE CONTENT -->
+
+        <div class="candidate-info">
+
+          <div class="candidate-header">
+
+
+            <!-- IDENTITY -->
+
+            <div class="identity">
+
+              <div class="avatar">
+
+                {{
+                  candidate
+                    .firstName
+                    .charAt(0)
+                }}
+
+                {{
+                  candidate
+                    .lastName
+                    .charAt(0)
+                }}
+
+              </div>
+
+
+              <div>
+
+                <h2>
+                  {{ candidate.firstName }}
+                  {{ candidate.lastName }}
+                </h2>
+
+                <p>
+                  {{ candidate.jobTitle }}
+                </p>
+
+
+                <div class="candidate-ids">
+
+                  <span>
+                    Candidate #{{ candidate.candidateId }}
+                  </span>
+
+                  <span>
+                    Application #{{ candidate.applicationId }}
+                  </span>
+
+                  <span>
+                    Job #{{ candidate.jobOfferId }}
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- FINAL SCORE -->
+
+            <div class="final-score">
+
+              <strong>
+                {{
+                  candidate
+                    .matchingResult
+                    .finalScore
+                }}%
+              </strong>
+
+              <span>
+                Final Match
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- SCORE GRID -->
+
+          <div class="score-grid">
+
+
+            <!-- SKILLS -->
+
+            <div class="score-item">
+
+              <div class="score-title">
+
+                <span>
+                  Skills
+                </span>
+
+                <strong>
+                  {{
+                    candidate
+                      .matchingResult
+                      .skillScore
+                  }}%
+                </strong>
+
+              </div>
+
+
+              <div class="score-bar">
+
+                <span
+                  [style.width.%]="
+                    candidate
+                      .matchingResult
+                      .skillScore
+                  "
+                ></span>
+
+              </div>
+
+
+              <p>
+                Weight: 50%
+              </p>
+
+            </div>
+
+
+            <!-- EXPERIENCE -->
+
+            <div class="score-item">
+
+              <div class="score-title">
+
+                <span>
+                  Experience
+                </span>
+
+                <strong>
+                  {{
+                    candidate
+                      .matchingResult
+                      .experienceScore
+                  }}%
+                </strong>
+
+              </div>
+
+
+              <div class="score-bar">
+
+                <span
+                  [style.width.%]="
+                    candidate
+                      .matchingResult
+                      .experienceScore
+                  "
+                ></span>
+
+              </div>
+
+
+              <p>
+                Weight: 30%
+              </p>
+
+            </div>
+
+
+            <!-- EDUCATION -->
+
+            <div class="score-item">
+
+              <div class="score-title">
+
+                <span>
+                  Education
+                </span>
+
+                <strong>
+                  {{
+                    candidate
+                      .matchingResult
+                      .educationScore
+                  }}%
+                </strong>
+
+              </div>
+
+
+              <div class="score-bar">
+
+                <span
+                  [style.width.%]="
+                    candidate
+                      .matchingResult
+                      .educationScore
+                  "
+                ></span>
+
+              </div>
+
+
+              <p>
+                Weight: 20%
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- MISSING SKILLS -->
+
+          <div class="missing-skills">
+
+            <div class="missing-heading">
+
+              <strong>
+                Missing Skills
+              </strong>
+
+              <span>
+                {{
+                  candidate
+                    .matchingResult
+                    .missingSkills
+                    .length
+                }}
+                gaps
+              </span>
+
+            </div>
+
+
+            @if (
+              candidate
+                .matchingResult
+                .missingSkills
+                .length > 0
+            ) {
+
+              <div class="skill-tags">
+
+                @for (
+                  skill of candidate
+                    .matchingResult
+                    .missingSkills;
+                  track skill.skillId
+                ) {
+
+                  <span>
+                    {{ skill.name }}
+                  </span>
+
+                }
+
+              </div>
+
+            } @else {
+
+              <p class="no-gaps">
+                No missing skills detected.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- SCORE CHECK -->
+
+          <div
+            class="score-check"
+            [class.valid]="
+              isScoreConsistent(candidate)
+            "
+          >
+
+            @if (
+              isScoreConsistent(candidate)
+            ) {
+
+              <span>
+                ✓
+              </span>
+
+              <p>
+                Matching score verified:
+                {{ calculateFinalScore(candidate) }}%
+              </p>
+
+            } @else {
+
+              <span>
+                !
+              </span>
+
+              <p>
+                Stored score does not match
+                the calculated score.
+              </p>
+
+            }
+
+          </div>
+
+
+          <!-- ACTIONS -->
+
+          <div class="candidate-actions">
+
+            <a
+              class="profile-button"
+              [routerLink]="[
+                '/recruiter/candidates',
+                candidate.candidateId
+              ]"
+            >
+              View Profile
+
+              <span>
+                →
+              </span>
+            </a>
+
+
+            <a
+              class="application-button"
+              [routerLink]="[
+                '/recruiter/applications',
+                candidate.applicationId
+              ]"
+            >
+              Review Application
+
+              <span>
+                →
+              </span>
+            </a>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    } @empty {
+
+      <div class="empty-state">
+
+        <h3>
+          No candidates to rank
+        </h3>
+
+        <p>
+          Matching results will appear here
+          when applications are available.
+        </p>
+
+      </div>
+
+    }
+
+  </section>
+
+</div>

@@ -1,0 +1,172 @@
+:host {
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.topbar {
+  min-height: 78px;
+
+  padding: 14px 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #e8ecf2;
+
+  background:
+    rgba(255, 255, 255, 0.88);
+
+  backdrop-filter: blur(16px);
+}
+
+.page-info p {
+  margin: 0 0 3px;
+
+  color: #98a2b3;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.7px;
+
+  text-transform: uppercase;
+}
+
+.page-info h1 {
+  margin: 0;
+
+  color: #172033;
+
+  font-size: 22px;
+  font-weight: 750;
+
+  letter-spacing: -0.7px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+}
+
+.icon-button {
+  position: relative;
+
+  width: 39px;
+  height: 39px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #e5e9ef;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #667085;
+
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: #f8fafc;
+
+  color: #172033;
+}
+
+.icon-button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.notification-dot {
+  position: absolute;
+
+  top: 7px;
+  right: 7px;
+
+  width: 6px;
+  height: 6px;
+
+  border: 2px solid white;
+  border-radius: 50%;
+
+  background: #36d6aa;
+}
+
+.topbar-user {
+  padding-left: 14px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  border-left:
+    1px solid #e6eaf0;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: #102b48;
+
+  color: #dbe9f4;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.user-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-copy strong {
+  color: #26364a;
+
+  font-size: 11px;
+}
+
+.user-copy span {
+  margin-top: 2px;
+
+  color: #98a2b3;
+
+  font-size: 9px;
+}
+
+@media (max-width: 600px) {
+
+  .topbar {
+    min-height: 68px;
+
+    padding: 12px 16px;
+  }
+
+  .page-info h1 {
+    font-size: 19px;
+  }
+
+  .user-copy {
+    display: none;
+  }
+
+  .topbar-user {
+    padding-left: 8px;
+  }
+
+}

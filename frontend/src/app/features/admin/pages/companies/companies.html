@@ -1,0 +1,295 @@
+<div class="companies-page">
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        ADMINISTRATION WORKSPACE
+      </p>
+
+      <h1>
+        Companies
+      </h1>
+
+      <p class="subtitle">
+        Manage companies registered on the SmartRecruit AI platform.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <section class="stats-grid">
+
+    <div class="stat-card">
+
+      <span>
+        Total Companies
+      </span>
+
+      <strong>
+        {{ totalCompanies }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Active
+      </span>
+
+      <strong>
+        {{ activeCompanies }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Inactive
+      </span>
+
+      <strong>
+        {{ inactiveCompanies }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <section class="filters-card">
+
+    <div class="search-field">
+
+      <input
+        type="text"
+        placeholder="Search company, industry or city..."
+        [(ngModel)]="searchTerm"
+      />
+
+    </div>
+
+
+    <div class="filter-field">
+
+      <select [(ngModel)]="selectedStatus">
+
+        <option value="ALL">
+          All statuses
+        </option>
+
+        <option value="ACTIVE">
+          Active
+        </option>
+
+        <option value="INACTIVE">
+          Inactive
+        </option>
+
+      </select>
+
+    </div>
+
+  </section>
+
+
+  <section class="companies-card">
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Company
+            </th>
+
+            <th>
+              Industry
+            </th>
+
+            <th>
+              Location
+            </th>
+
+            <th>
+              Website
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          @for (company of filteredCompanies; track company.id) {
+
+            <tr>
+
+              <td>
+
+                <div class="company-info">
+
+                  <div class="company-avatar">
+                    {{ company.name.charAt(0) }}
+                  </div>
+
+
+                  <div>
+
+                    <strong>
+                      {{ company.name }}
+                    </strong>
+
+                    <span>
+                      ID #{{ company.id }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <span class="industry">
+                  {{ company.industry || 'Not specified' }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="location">
+
+                  <strong>
+                    {{ company.city || 'Not specified' }}
+                  </strong>
+
+                  <span>
+                    {{ company.country }}
+                  </span>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                @if (company.website) {
+
+                  <a
+                    class="website-link"
+                    [href]="company.website"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit Website →
+                  </a>
+
+                } @else {
+
+                  <span class="no-website">
+                    No website
+                  </span>
+
+                }
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="status-badge"
+                  [class.active]="company.status === 'ACTIVE'"
+                  [class.inactive]="company.status === 'INACTIVE'"
+                >
+                  {{ statusLabel(company.status) }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <div class="actions">
+
+                  @if (company.status === 'INACTIVE') {
+
+                    <button
+                      type="button"
+                      class="activate"
+                      (click)="activateCompany(company.id)"
+                    >
+                      Activate
+                    </button>
+
+                  }
+
+
+                  @if (company.status === 'ACTIVE') {
+
+                    <button
+                      type="button"
+                      class="deactivate"
+                      (click)="deactivateCompany(company.id)"
+                    >
+                      Deactivate
+                    </button>
+
+                  }
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+
+              <td
+                colspan="6"
+                class="empty-state"
+              >
+                No companies found.
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</div>

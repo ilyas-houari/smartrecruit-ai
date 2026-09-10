@@ -1,0 +1,371 @@
+<div class="trainings-page">
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        ADMINISTRATION WORKSPACE
+      </p>
+
+      <h1>
+        Trainings
+      </h1>
+
+      <p class="subtitle">
+        Manage training resources available for candidate recommendations.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <section class="stats-grid">
+
+    <div class="stat-card">
+
+      <span>
+        Total Trainings
+      </span>
+
+      <strong>
+        {{ totalTrainings }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Active
+      </span>
+
+      <strong>
+        {{ activeTrainings }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Inactive
+      </span>
+
+      <strong>
+        {{ inactiveTrainings }}
+      </strong>
+
+    </div>
+
+
+    <div class="stat-card">
+
+      <span>
+        Free Trainings
+      </span>
+
+      <strong>
+        {{ freeTrainings }}
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <section class="filters-card">
+
+    <div class="search-field">
+
+      <input
+        type="text"
+        placeholder="Search training or provider..."
+        [(ngModel)]="searchTerm"
+      />
+
+    </div>
+
+
+    <div class="filter-field">
+
+      <select [(ngModel)]="selectedLevel">
+
+        <option value="ALL">
+          All levels
+        </option>
+
+        <option value="BEGINNER">
+          Beginner
+        </option>
+
+        <option value="INTERMEDIATE">
+          Intermediate
+        </option>
+
+        <option value="ADVANCED">
+          Advanced
+        </option>
+
+        <option value="ALL_LEVELS">
+          All Levels
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="filter-field">
+
+      <select [(ngModel)]="selectedStatus">
+
+        <option value="ALL">
+          All statuses
+        </option>
+
+        <option value="ACTIVE">
+          Active
+        </option>
+
+        <option value="INACTIVE">
+          Inactive
+        </option>
+
+      </select>
+
+    </div>
+
+  </section>
+
+
+  <section class="trainings-card">
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Training
+            </th>
+
+            <th>
+              Provider
+            </th>
+
+            <th>
+              Level
+            </th>
+
+            <th>
+              Duration
+            </th>
+
+            <th>
+              Price
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Link
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          @for (training of filteredTrainings; track training.id) {
+
+            <tr>
+
+              <td>
+
+                <div class="training-info">
+
+                  <div class="training-avatar">
+                    {{ training.title.charAt(0) }}
+                  </div>
+
+
+                  <div>
+
+                    <strong>
+                      {{ training.title }}
+                    </strong>
+
+                    <span class="description">
+                      {{ training.description }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <td>
+
+                <span class="provider">
+                  {{ training.provider }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="level-badge"
+                  [class.beginner]="training.level === 'BEGINNER'"
+                  [class.intermediate]="training.level === 'INTERMEDIATE'"
+                  [class.advanced]="training.level === 'ADVANCED'"
+                  [class.all-levels]="training.level === 'ALL_LEVELS'"
+                >
+                  {{ levelLabel(training.level) }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                <span class="duration">
+                  {{ training.durationHours }} hours
+                </span>
+
+              </td>
+
+
+              <td>
+
+                @if (training.isFree) {
+
+                  <span class="free-badge">
+                    Free
+                  </span>
+
+                } @else {
+
+                  <span class="paid-badge">
+                    Paid
+                  </span>
+
+                }
+
+              </td>
+
+
+              <td>
+
+                <span
+                  class="status-badge"
+                  [class.active]="training.status === 'ACTIVE'"
+                  [class.inactive]="training.status === 'INACTIVE'"
+                >
+                  {{ statusLabel(training.status) }}
+                </span>
+
+              </td>
+
+
+              <td>
+
+                @if (training.url) {
+
+                  <a
+                    class="training-link"
+                    [href]="training.url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open →
+                  </a>
+
+                } @else {
+
+                  <span class="no-link">
+                    No link
+                  </span>
+
+                }
+
+              </td>
+
+
+              <td>
+
+                <div class="actions">
+
+                  @if (training.status === 'INACTIVE') {
+
+                    <button
+                      type="button"
+                      class="activate"
+                      (click)="activateTraining(training.id)"
+                    >
+                      Activate
+                    </button>
+
+                  }
+
+
+                  @if (training.status === 'ACTIVE') {
+
+                    <button
+                      type="button"
+                      class="deactivate"
+                      (click)="deactivateTraining(training.id)"
+                    >
+                      Deactivate
+                    </button>
+
+                  }
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          } @empty {
+
+            <tr>
+
+              <td
+                colspan="8"
+                class="empty-state"
+              >
+                No trainings found.
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+</div>

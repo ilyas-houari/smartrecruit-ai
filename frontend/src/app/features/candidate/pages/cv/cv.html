@@ -1,0 +1,1766 @@
+<div class="cv-page">
+
+  <!-- =========================================
+       HEADER
+       ========================================= -->
+
+  <section class="page-header">
+
+    <div>
+
+      <p class="eyebrow">
+        CV intelligence
+      </p>
+
+      <h2>
+        Turn your CV into structured insights.
+      </h2>
+
+      <p class="page-description">
+        Upload your CV and SmartRecruit AI will extract
+        skills, experience and education for your candidate profile.
+      </p>
+
+    </div>
+
+
+    <div
+      class="status-badge"
+      [class.processing]="status === 'PROCESSING'"
+      [class.analyzed]="status === 'ANALYZED'"
+      [class.validated]="status === 'VALIDATED'"
+      [class.failed]="status === 'FAILED'"
+    >
+
+      <span></span>
+
+      {{ status }}
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       PROCESS TRACK
+       ========================================= -->
+
+  <section class="process-card">
+
+    <div class="process-header">
+
+      <div>
+
+        <p class="panel-label">
+          ANALYSIS PIPELINE
+        </p>
+
+        <h3>
+          CV processing status
+        </h3>
+
+      </div>
+
+
+      <span class="pipeline-status">
+
+        Current:
+
+        <strong>
+          {{ status }}
+        </strong>
+
+      </span>
+
+    </div>
+
+
+    <div class="process-track">
+
+
+      <!-- =====================================
+           UPLOADED
+           ===================================== -->
+
+      <div
+        class="process-step"
+        [class.reached]="isReached('UPLOADED')"
+        [class.current]="isCurrent('UPLOADED')"
+      >
+
+        <div class="step-circle">
+
+          @if (isReached('UPLOADED')) {
+            ✓
+          } @else {
+            1
+          }
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Uploaded
+          </strong>
+
+          <span>
+            File received
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="process-line"
+        [class.reached]="isReached('PROCESSING')"
+      ></div>
+
+
+      <!-- =====================================
+           PROCESSING
+           ===================================== -->
+
+      <div
+        class="process-step"
+        [class.reached]="isReached('PROCESSING')"
+        [class.current]="isCurrent('PROCESSING')"
+      >
+
+        <div class="step-circle">
+
+          @if (status === 'PROCESSING') {
+
+            <span class="mini-spinner"></span>
+
+          } @else if (isReached('PROCESSING')) {
+
+            ✓
+
+          } @else {
+
+            2
+
+          }
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Processing
+          </strong>
+
+          <span>
+            AI extraction
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="process-line"
+        [class.reached]="isReached('ANALYZED')"
+      ></div>
+
+
+      <!-- =====================================
+           ANALYZED
+           ===================================== -->
+
+      <div
+        class="process-step"
+        [class.reached]="isReached('ANALYZED')"
+        [class.current]="isCurrent('ANALYZED')"
+      >
+
+        <div class="step-circle">
+
+          @if (isReached('ANALYZED')) {
+            ✓
+          } @else {
+            3
+          }
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Analyzed
+          </strong>
+
+          <span>
+            Results ready
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="process-line"
+        [class.reached]="isReached('VALIDATED')"
+      ></div>
+
+
+      <!-- =====================================
+           VALIDATED
+           ===================================== -->
+
+      <div
+        class="process-step"
+        [class.reached]="isReached('VALIDATED')"
+        [class.current]="isCurrent('VALIDATED')"
+      >
+
+        <div class="step-circle">
+
+          @if (isReached('VALIDATED')) {
+            ✓
+          } @else {
+            4
+          }
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Validated
+          </strong>
+
+          <span>
+            Confirmed by you
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================
+         PROCESSING INFO
+         ===================================== -->
+
+    @if (status === 'PROCESSING') {
+
+      <div class="processing-banner">
+
+        <div>
+
+          <strong>
+            Analyzing your CV...
+          </strong>
+
+          <span>
+            SmartRecruit AI is extracting your skills,
+            experience and education.
+          </span>
+
+        </div>
+
+      </div>
+
+    }
+
+
+    <!-- =====================================
+         FAILED
+         ===================================== -->
+
+    @if (status === 'FAILED') {
+
+      <div class="failed-banner">
+
+        <div>
+
+          <strong>
+            CV analysis failed
+          </strong>
+
+          <span>
+            The document could not be processed.
+            You can retry the analysis.
+          </span>
+
+        </div>
+
+
+        <button
+          type="button"
+          (click)="retryAnalysis()"
+        >
+          Retry analysis
+        </button>
+
+      </div>
+
+    }
+
+  </section>
+
+
+  <!-- =========================================
+       MAIN GRID
+       ========================================= -->
+
+  <div class="cv-layout">
+
+
+    <!-- =========================================
+         LEFT COLUMN
+         ========================================= -->
+
+    <div class="main-column">
+
+
+      <!-- =====================================
+           UPLOAD
+           ===================================== -->
+
+      <section class="panel upload-panel">
+
+        <div class="panel-header">
+
+          <div class="panel-heading">
+
+            <div class="panel-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path d="M12 16V4"></path>
+
+                <path d="m7 9 5-5 5 5"></path>
+
+                <path d="M20 15v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4"></path>
+              </svg>
+
+            </div>
+
+
+            <div>
+
+              <p class="panel-label">
+                DOCUMENT
+              </p>
+
+              <h3>
+                Upload a new CV
+              </h3>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="upload-content">
+
+
+          <!-- =================================
+               DROPZONE
+               ================================= -->
+
+          <div
+            class="drop-zone"
+            [class.dragging]="isDragging"
+            (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)"
+            (drop)="onDrop($event)"
+          >
+
+            <input
+              #fileInput
+              type="file"
+              accept=".pdf,.docx"
+              hidden
+              (change)="onFileSelected($event)"
+            >
+
+
+            <div class="upload-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+
+                <path d="M14 2v6h6"></path>
+
+                <path d="M12 18v-6"></path>
+
+                <path d="m9 15 3-3 3 3"></path>
+              </svg>
+
+            </div>
+
+
+            <h4>
+              Drop your CV here
+            </h4>
+
+
+            <p>
+              Drag and drop your document, or browse your computer.
+            </p>
+
+
+            <button
+              class="browse-button"
+              type="button"
+              (click)="fileInput.click()"
+            >
+              Choose file
+            </button>
+
+
+            <div class="supported-formats">
+
+              <span>
+                PDF
+              </span>
+
+              <i></i>
+
+              <span>
+                DOCX
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================
+               ERROR
+               ================================= -->
+
+          @if (fileError) {
+
+            <div class="file-error">
+
+              <span>
+                !
+              </span>
+
+              {{ fileError }}
+
+            </div>
+
+          }
+
+
+          <!-- =================================
+               SELECTED FILE
+               ================================= -->
+
+          @if (selectedFile) {
+
+            <div class="selected-file">
+
+              <div class="file-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+
+                  <path d="M14 2v6h6"></path>
+                </svg>
+
+              </div>
+
+
+              <div class="selected-file-info">
+
+                <strong>
+                  {{ selectedFile.name }}
+                </strong>
+
+                <span>
+                  Ready to upload
+                </span>
+
+              </div>
+
+
+              <button
+                class="remove-file"
+                type="button"
+                aria-label="Remove selected file"
+                (click)="removeSelectedFile()"
+              >
+                ×
+              </button>
+
+            </div>
+
+
+            <button
+              class="upload-button"
+              type="button"
+              (click)="uploadCv()"
+            >
+
+              <span>
+                Upload and analyze CV
+              </span>
+
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14"></path>
+
+                <path d="m14 7 5 5-5 5"></path>
+              </svg>
+
+            </button>
+
+          }
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================
+           ANALYSIS RESULTS
+           ===================================== -->
+
+      @if (
+        status === 'ANALYZED' ||
+        status === 'VALIDATED'
+      ) {
+
+        <section class="panel analysis-panel">
+
+          <!-- =================================
+               ANALYSIS HEADER
+               ================================= -->
+
+          <div class="panel-header analysis-header">
+
+            <div class="panel-heading">
+
+              <div class="panel-icon">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path d="M12 2v4"></path>
+
+                  <path d="m16.24 7.76 2.83-2.83"></path>
+
+                  <path d="M18 12h4"></path>
+
+                  <path d="m16.24 16.24 2.83 2.83"></path>
+
+                  <path d="M12 18v4"></path>
+
+                  <path d="m7.76 16.24-2.83 2.83"></path>
+
+                  <path d="M6 12H2"></path>
+
+                  <path d="m7.76 7.76-2.83-2.83"></path>
+
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="3"
+                  ></circle>
+                </svg>
+
+              </div>
+
+
+              <div>
+
+                <p class="panel-label">
+                  AI EXTRACTION
+                </p>
+
+                <h3>
+                  CV analysis results
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <!-- =================================
+                 REVIEW / VALIDATE ACTIONS
+                 ================================= -->
+
+            @if (status === 'ANALYZED') {
+
+              <div class="analysis-actions">
+
+                @if (!isEditingAnalysis) {
+
+                  <button
+                    class="edit-analysis-button"
+                    type="button"
+                    (click)="startEditingAnalysis()"
+                  >
+                    Review & correct
+                  </button>
+
+                } @else {
+
+                  <button
+                    class="finish-edit-button"
+                    type="button"
+                    (click)="finishEditingAnalysis()"
+                  >
+                    Finish editing
+                  </button>
+
+                }
+
+
+                <button
+                  class="validate-button"
+                  type="button"
+                  (click)="validateAnalysis()"
+                >
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="m5 12 4 4L19 6"></path>
+                  </svg>
+
+                  Validate analysis
+
+                </button>
+
+              </div>
+
+            }
+
+
+            @if (status === 'VALIDATED') {
+
+              <div class="validated-label">
+
+                <span>
+                  ✓
+                </span>
+
+                Validated
+
+              </div>
+
+            }
+
+          </div>
+
+
+          <!-- =================================
+               REVIEW MESSAGE
+               ================================= -->
+
+          @if (
+            status === 'ANALYZED' &&
+            !isEditingAnalysis
+          ) {
+
+            <div class="review-banner">
+
+              <span>
+                !
+              </span>
+
+              <div>
+
+                <strong>
+                  Review the AI extraction before validation
+                </strong>
+
+                <p>
+                  Check your skills, professional experience and
+                  education. If something is incorrect, choose
+                  "Review & correct".
+                </p>
+
+              </div>
+
+            </div>
+
+          }
+
+
+          @if (
+            status === 'ANALYZED' &&
+            isEditingAnalysis
+          ) {
+
+            <div class="editing-banner">
+
+              <span>
+                ✎
+              </span>
+
+              <div>
+
+                <strong>
+                  Correction mode
+                </strong>
+
+                <p>
+                  You can now correct, remove or add extracted
+                  information before validating your CV.
+                </p>
+
+              </div>
+
+            </div>
+
+          }
+
+
+          <!-- =================================
+               DETECTED COUNTS
+               ================================= -->
+
+          <div class="analysis-stats">
+
+            @for (
+              item of detectedInformation;
+              track item.label
+            ) {
+
+              <div class="analysis-stat">
+
+                <strong>
+                  {{ item.value }}
+                </strong>
+
+
+                <div>
+
+                  <span>
+                    {{ item.label }}
+                  </span>
+
+                  <small>
+                    {{ item.detail }}
+                  </small>
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+
+          <!-- =================================
+               SKILLS
+               ================================= -->
+
+          <div class="analysis-section">
+
+            <div class="section-title">
+
+              <div>
+
+                <span>
+                  01
+                </span>
+
+                <h4>
+                  Extracted skills
+                </h4>
+
+              </div>
+
+
+              <div class="section-title-actions">
+
+                <span class="section-count">
+                  {{ extractedSkills.length }} detected
+                </span>
+
+
+                @if (
+                  status === 'ANALYZED' &&
+                  isEditingAnalysis
+                ) {
+
+                  <button
+                    class="add-item-button"
+                    type="button"
+                    (click)="addSkill()"
+                  >
+                    + Add skill
+                  </button>
+
+                }
+
+              </div>
+
+            </div>
+
+
+            <div class="skill-grid">
+
+              @for (
+                skill of extractedSkills;
+                track $index
+              ) {
+
+                <div
+                  class="skill-card"
+                  [class.editing]="
+                    status === 'ANALYZED' &&
+                    isEditingAnalysis
+                  "
+                >
+
+                  @if (
+                    status === 'ANALYZED' &&
+                    isEditingAnalysis
+                  ) {
+
+                    <!-- =========================
+                         EDIT SKILL
+                         ========================= -->
+
+                    <div class="edit-item-form">
+
+                      <div class="edit-field">
+
+                        <label>
+                          Skill name
+                        </label>
+
+                        <input
+                          type="text"
+                          [value]="skill.name"
+                          (input)="
+                            updateSkill(
+                              $index,
+                              'name',
+                              $any($event.target).value
+                            )
+                          "
+                        >
+
+                      </div>
+
+
+                      <div class="edit-field">
+
+                        <label>
+                          Category
+                        </label>
+
+                        <input
+                          type="text"
+                          [value]="skill.category"
+                          (input)="
+                            updateSkill(
+                              $index,
+                              'category',
+                              $any($event.target).value
+                            )
+                          "
+                        >
+
+                      </div>
+
+
+                      <div class="edit-field">
+
+                        <label>
+                          Level
+                        </label>
+
+                        <select
+                          [value]="skill.level"
+                          (change)="
+                            updateSkill(
+                              $index,
+                              'level',
+                              $any($event.target).value
+                            )
+                          "
+                        >
+
+                          <option value="BEGINNER">
+                            Beginner
+                          </option>
+
+                          <option value="INTERMEDIATE">
+                            Intermediate
+                          </option>
+
+                          <option value="ADVANCED">
+                            Advanced
+                          </option>
+
+                        </select>
+
+                      </div>
+
+
+                      <button
+                        class="remove-analysis-item"
+                        type="button"
+                        (click)="removeSkill($index)"
+                      >
+                        Remove
+                      </button>
+
+                    </div>
+
+                  } @else {
+
+                    <!-- =========================
+                         DISPLAY SKILL
+                         ========================= -->
+
+                    <div class="skill-name">
+
+                      <span class="skill-check">
+                        ✓
+                      </span>
+
+
+                      <div>
+
+                        <strong>
+                          {{ skill.name }}
+                        </strong>
+
+                        <span>
+                          {{ skill.category }}
+                        </span>
+
+                      </div>
+
+                    </div>
+
+
+                    <span
+                      class="skill-level"
+                      [class.advanced]="
+                        skill.level === 'ADVANCED'
+                      "
+                      [class.intermediate]="
+                        skill.level === 'INTERMEDIATE'
+                      "
+                    >
+                      {{ skill.level }}
+                    </span>
+
+                  }
+
+                </div>
+
+              } @empty {
+
+                <div class="analysis-empty">
+                  No skills detected.
+                </div>
+
+              }
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================
+               EXPERIENCE
+               ================================= -->
+
+          <div class="analysis-section">
+
+            <div class="section-title">
+
+              <div>
+
+                <span>
+                  02
+                </span>
+
+                <h4>
+                  Extracted experience
+                </h4>
+
+              </div>
+
+
+              <div class="section-title-actions">
+
+                <span class="section-count">
+                  {{ extractedExperiences.length }}
+                  positions
+                </span>
+
+
+                @if (
+                  status === 'ANALYZED' &&
+                  isEditingAnalysis
+                ) {
+
+                  <button
+                    class="add-item-button"
+                    type="button"
+                    (click)="addExperience()"
+                  >
+                    + Add experience
+                  </button>
+
+                }
+
+              </div>
+
+            </div>
+
+
+            <div class="experience-list">
+
+              @for (
+                experience of extractedExperiences;
+                track $index
+              ) {
+
+                @if (
+                  status === 'ANALYZED' &&
+                  isEditingAnalysis
+                ) {
+
+                  <!-- =========================
+                       EDIT EXPERIENCE
+                       ========================= -->
+
+                  <article class="experience-card editing-card">
+
+                    <div class="edit-item-form experience-edit-form">
+
+                      <div class="edit-field">
+
+                        <label>
+                          Job title
+                        </label>
+
+                        <input
+                          type="text"
+                          [value]="experience.jobTitle"
+                          (input)="
+                            updateExperience(
+                              $index,
+                              'jobTitle',
+                              $any($event.target).value
+                            )
+                          "
+                        >
+
+                      </div>
+
+
+                      <div class="edit-field">
+
+                        <label>
+                          Company
+                        </label>
+
+                        <input
+                          type="text"
+                          [value]="experience.company"
+                          (input)="
+                            updateExperience(
+                              $index,
+                              'company',
+                              $any($event.target).value
+                            )
+                          "
+                        >
+
+                      </div>
+
+
+                      <div class="edit-field">
+
+                        <label>
+                          Period
+                        </label>
+
+                        <input
+                          type="text"
+                          [value]="experience.period"
+                          placeholder="Example: Mar 2026 — Jul 2026"
+                          (input)="
+                            updateExperience(
+                              $index,
+                              'period',
+                              $any($event.target).value
+                            )
+                          "
+                        >
+
+                      </div>
+
+
+                      <div class="edit-field full-width">
+
+                        <label>
+                          Description
+                        </label>
+
+                        <textarea
+                          rows="3"
+                          [value]="experience.description"
+                          (input)="
+                            updateExperience(
+                              $index,
+                              'description',
+                              $any($event.target).value
+                            )
+                          "
+                        ></textarea>
+
+                      </div>
+
+
+                      <button
+                        class="remove-analysis-item"
+                        type="button"
+                        (click)="removeExperience($index)"
+                      >
+                        Remove experience
+                      </button>
+
+                    </div>
+
+                  </article>
+
+                } @else {
+
+                  <!-- =========================
+                       DISPLAY EXPERIENCE
+                       ========================= -->
+
+                  <article class="experience-card">
+
+                    <div class="experience-marker">
+
+                      <span></span>
+
+                    </div>
+
+
+                    <div>
+
+                      <div class="experience-heading">
+
+                        <div>
+
+                          <h5>
+                            {{ experience.jobTitle }}
+                          </h5>
+
+                          <p>
+                            {{ experience.company }}
+                          </p>
+
+                        </div>
+
+
+                        <span>
+                          {{ experience.period }}
+                        </span>
+
+                      </div>
+
+
+                      <p class="experience-description">
+                        {{ experience.description }}
+                      </p>
+
+                    </div>
+
+                  </article>
+
+                }
+
+              } @empty {
+
+                <div class="analysis-empty">
+                  No professional experience detected.
+                </div>
+
+              }
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================
+               EDUCATION
+               ================================= -->
+
+          <div class="analysis-section">
+
+            <div class="section-title">
+
+              <div>
+
+                <span>
+                  03
+                </span>
+
+                <h4>
+                  Extracted education
+                </h4>
+
+              </div>
+
+
+              <div class="section-title-actions">
+
+                <span class="section-count">
+                  {{ extractedEducation.length }}
+                  records
+                </span>
+
+
+                @if (
+                  status === 'ANALYZED' &&
+                  isEditingAnalysis
+                ) {
+
+                  <button
+                    class="add-item-button"
+                    type="button"
+                    (click)="addEducation()"
+                  >
+                    + Add education
+                  </button>
+
+                }
+
+              </div>
+
+            </div>
+
+
+            @for (
+              education of extractedEducation;
+              track $index
+            ) {
+
+              @if (
+                status === 'ANALYZED' &&
+                isEditingAnalysis
+              ) {
+
+                <!-- =========================
+                     EDIT EDUCATION
+                     ========================= -->
+
+                <article class="education-card editing-card">
+
+                  <div class="edit-item-form education-edit-form">
+
+                    <div class="edit-field">
+
+                      <label>
+                        Degree
+                      </label>
+
+                      <input
+                        type="text"
+                        [value]="education.degree"
+                        (input)="
+                          updateEducation(
+                            $index,
+                            'degree',
+                            $any($event.target).value
+                          )
+                        "
+                      >
+
+                    </div>
+
+
+                    <div class="edit-field">
+
+                      <label>
+                        Institution
+                      </label>
+
+                      <input
+                        type="text"
+                        [value]="education.institution"
+                        (input)="
+                          updateEducation(
+                            $index,
+                            'institution',
+                            $any($event.target).value
+                          )
+                        "
+                      >
+
+                    </div>
+
+
+                    <div class="edit-field">
+
+                      <label>
+                        Period
+                      </label>
+
+                      <input
+                        type="text"
+                        [value]="education.period"
+                        placeholder="Example: 2023 — 2026"
+                        (input)="
+                          updateEducation(
+                            $index,
+                            'period',
+                            $any($event.target).value
+                          )
+                        "
+                      >
+
+                    </div>
+
+
+                    <div class="edit-field">
+
+                      <label>
+                        Education level
+                      </label>
+
+                      <input
+                        type="text"
+                        [value]="education.level"
+                        (input)="
+                          updateEducation(
+                            $index,
+                            'level',
+                            $any($event.target).value
+                          )
+                        "
+                      >
+
+                    </div>
+
+
+                    <button
+                      class="remove-analysis-item"
+                      type="button"
+                      (click)="removeEducation($index)"
+                    >
+                      Remove education
+                    </button>
+
+                  </div>
+
+                </article>
+
+              } @else {
+
+                <!-- =========================
+                     DISPLAY EDUCATION
+                     ========================= -->
+
+                <article class="education-card">
+
+                  <div class="education-icon">
+
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                    >
+                      <path d="m2 10 10-5 10 5-10 5Z"></path>
+
+                      <path d="M6 12v5c3 2 9 2 12 0v-5"></path>
+                    </svg>
+
+                  </div>
+
+
+                  <div>
+
+                    <h5>
+                      {{ education.degree }}
+                    </h5>
+
+                    <p>
+                      {{ education.institution }}
+                    </p>
+
+
+                    <div class="education-meta">
+
+                      <span>
+                        {{ education.period }}
+                      </span>
+
+                      <i></i>
+
+                      <span>
+                        {{ education.level }}
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </article>
+
+              }
+
+            } @empty {
+
+              <div class="analysis-empty">
+                No education information detected.
+              </div>
+
+            }
+
+          </div>
+
+        </section>
+
+      }
+
+    </div>
+
+
+    <!-- =========================================
+         RIGHT COLUMN
+         ========================================= -->
+
+    <aside class="side-column">
+
+
+      <!-- =====================================
+           CURRENT CV
+           ===================================== -->
+
+      <section class="panel current-cv-panel">
+
+        <div class="panel-header">
+
+          <div class="panel-heading">
+
+            <div class="panel-icon">
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+
+                <path d="M14 2v6h6"></path>
+              </svg>
+
+            </div>
+
+
+            <div>
+
+              <p class="panel-label">
+                CURRENT DOCUMENT
+              </p>
+
+              <h3>
+                Your CV
+              </h3>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        @if (currentCv; as cv) {
+
+          <div class="current-cv-content">
+
+            <div class="document-preview">
+
+              <div class="document-top">
+
+                <span>
+                  CV
+                </span>
+
+                <strong>
+                  {{ cv.format }}
+                </strong>
+
+              </div>
+
+
+              <div class="document-lines">
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+              </div>
+
+            </div>
+
+
+            <h4>
+              {{ cv.name }}
+            </h4>
+
+
+            <div class="document-meta">
+
+              <span>
+                {{ cv.size }}
+              </span>
+
+              <i></i>
+
+              <span>
+                {{ cv.uploadedAt }}
+              </span>
+
+            </div>
+
+
+            <div
+              class="document-status"
+              [class.validated]="
+                status === 'VALIDATED'
+              "
+            >
+
+              <span></span>
+
+              {{ status }}
+
+            </div>
+
+          </div>
+
+        } @else {
+
+          <div class="no-current-cv">
+
+            <strong>
+              No CV uploaded
+            </strong>
+
+            <p>
+              Upload a PDF or DOCX document to start
+              the analysis.
+            </p>
+
+          </div>
+
+        }
+
+      </section>
+
+
+      <!-- =====================================
+           AI INFO
+           ===================================== -->
+
+      <section class="ai-card">
+
+        <div class="ai-icon">
+
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M12 2v4"></path>
+
+            <path d="M12 18v4"></path>
+
+            <path d="M4.93 4.93l2.83 2.83"></path>
+
+            <path d="m16.24 16.24 2.83 2.83"></path>
+
+            <path d="M2 12h4"></path>
+
+            <path d="M18 12h4"></path>
+
+            <path d="m4.93 19.07 2.83-2.83"></path>
+
+            <path d="m16.24 7.76 2.83-2.83"></path>
+
+            <circle
+              cx="12"
+              cy="12"
+              r="4"
+            ></circle>
+          </svg>
+
+        </div>
+
+
+        <span>
+          AI-POWERED ANALYSIS
+        </span>
+
+
+        <h3>
+          Your CV becomes structured candidate data.
+        </h3>
+
+
+        <p>
+          SmartRecruit extracts information from your CV
+          so it can be used for matching and recommendations.
+        </p>
+
+
+        <div class="ai-features">
+
+          <div>
+            <span>✓</span>
+            Skill extraction
+          </div>
+
+          <div>
+            <span>✓</span>
+            Experience extraction
+          </div>
+
+          <div>
+            <span>✓</span>
+            Education extraction
+          </div>
+
+          <div>
+            <span>✓</span>
+            Candidate review and correction
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================
+           NEXT STEP
+           ===================================== -->
+
+      <section class="next-step-card">
+
+        <span class="next-step-label">
+          NEXT STEP
+        </span>
+
+
+        @if (status === 'ANALYZED') {
+
+          <h3>
+            Review your extracted information.
+          </h3>
+
+          <p>
+            Correct any AI extraction mistakes and validate
+            the analysis when the information is accurate.
+          </p>
+
+        } @else if (status === 'VALIDATED') {
+
+          <h3>
+            Your CV analysis is validated.
+          </h3>
+
+          <p>
+            Your validated candidate information can now
+            support matching and recommendations.
+          </p>
+
+        } @else if (status === 'PROCESSING') {
+
+          <h3>
+            Analysis in progress.
+          </h3>
+
+          <p>
+            Wait while SmartRecruit processes your CV.
+          </p>
+
+        } @else if (status === 'FAILED') {
+
+          <h3>
+            Analysis needs attention.
+          </h3>
+
+          <p>
+            Retry the failed analysis to continue.
+          </p>
+
+        } @else {
+
+          <h3>
+            Complete your CV analysis.
+          </h3>
+
+          <p>
+            Upload your document and continue through
+            the analysis workflow.
+          </p>
+
+        }
+
+      </section>
+
+    </aside>
+
+  </div>
+
+</div>
